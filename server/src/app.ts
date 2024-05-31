@@ -1,9 +1,8 @@
 import express from "express";
-import { config } from "./config/config";
 
 const app =express();
 
-app.get("/get-health",(req,res)=>{
+app.get("/get-health",(_,res)=>{
 
     res.status(200).send("Healthy");
 })
