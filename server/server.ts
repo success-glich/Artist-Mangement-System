@@ -5,8 +5,6 @@ import createTables from "./src/config/setup";
 
 const port = config.port || 8001
 
-
-
 const startServer = async () => {
 
     //*  Check the database connection
