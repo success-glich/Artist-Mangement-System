@@ -83,6 +83,44 @@ const UserController = {
       next(error);
     }
   },
+  updateUser: async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const id = Number(req.params.id);
+      const { first_name, last_name, email, phone, dob, gender, address } =
+        req.body;
+
+      const existingUser = await userServices.getUserById(id);
+      if (!existingUser) throw new Error("User not found");
+
+      //* Check email duplication
+      if (email !== existingUser.email) {
+        const checkDuplicationEmail = await userServices.getUserByEmail(email);
+        if (checkDuplicationEmail){
+            const error = createHttpError(400, "Email already exists");
+            next(error);
+        }
+      }
+
+      await userServices.updateUserById({
+        id,
+        first_name,
+        last_name,
+        email,
+        phone,
+        dob,
+        gender,
+        address,
+      });
+
+      return res
+        .status(201)
+        .json(new ApiResponse(200, null, "User data updated successfully!"));
+    } catch (err: any) {
+      console.log("Error while updating users:", err);
+      const error = createHttpError(500, err.message);
+      next(error);
+    }
+  },
 };
 
 export default UserController;

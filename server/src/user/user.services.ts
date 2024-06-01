@@ -74,9 +74,53 @@ class UserServices {
       client.release();
     }
   }
-  async updateUserById() {}
+  async updateUserById({
+    id,
+    first_name,
+    last_name,
+    phone,
+    email,
+    dob,
+    gender,
+    address,
+  }: Omit<User, "password">) {
+    const client = await this.pool.connect();
 
-  async deleteUserById(id:number) {
+    try {
+      const query = `
+      UPDATE "user"
+      SET 
+        first_name = $1,
+        last_name = $2,
+        email = $3,
+        phone = $4,
+        dob = $5,
+        gender = $6,
+        address = $7
+        WHERE id = $8`;
+      const values = [
+         first_name,
+        last_name,
+        email,
+        phone,
+        dob,
+        gender,
+        address,
+        id
+      ];
+
+      const res = await client.query(query, values);
+      
+      if(res.rowCount===0) throw new Error("Something wrong when updating users");
+      return;
+    } catch (err: any) {
+      throw new Error(err);
+    } finally {
+      client.release();
+    }
+  }
+
+  async deleteUserById(id: number) {
     const client = await this.pool.connect();
     try {
       const res = await client.query('DELETE FROM "user" WHERE id = $1', [id]);
@@ -87,6 +131,32 @@ class UserServices {
       client.release();
     }
   }
-}
+  async getUserById(id: number) {
+    const client = await this.pool.connect();
+    try {
+      const res = await client.query('SELECT * FROM "user" WHERE id = $1', [
+        id,
+      ]);
+      return res.rows[0];
+    } catch (err: any) {
+      throw new Error(err);
+    } finally {
+      client.release();
+    }
+  }
+  async getUserByEmail(email: string) {
+    const client = await this.pool.connect();
+    try {
+      const res = await client.query('SELECT * FROM "user" WHERE email = $1', [
+        email,
+      ]);
 
+      return res?.rowCount !== 0 ? true : false;
+    } catch (err: any) {
+      throw new Error(err);
+    } finally {
+      client.release();
+    }
+  }
+}
 export default UserServices;

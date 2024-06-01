@@ -86,4 +86,65 @@ export const validateUser = [
     .withMessage("Invalid gender"),
 
   body("address").notEmpty().withMessage("Address is required"),
+  (req: Request, res: Response, next: NextFunction) => {
+    const error = validationResult(req);
+    if (!error.isEmpty()) {
+      return res
+        .status(400)
+        .json(new ApiResponse(400, { error: error.array() }));
+    }
+    next();
+  },
 ];
+
+export const validateUserUpdate =[
+
+    body("first_name")
+    .notEmpty()
+    .withMessage("First name is required")
+    .isLength({ max: 255 })
+    .withMessage("First name must be less than 255 characters"),
+
+  body("last_name")
+    .notEmpty()
+    .withMessage("Last name is required")
+    .isLength({ max: 255 })
+    .withMessage("Last name must be less than 255 characters"),
+
+  body("email")
+    .trim()
+    .notEmpty()
+    .withMessage("Email is required")
+    .isEmail()
+    .withMessage("Invalid email format"),
+
+  body("phone")
+    .notEmpty()
+    .withMessage("Phone number is required")
+    .isMobilePhone("ne-NP")
+    .withMessage("Invalid phone number"),
+
+  body("dob")
+    .notEmpty()
+    .withMessage("Date of birth is required")
+    .isISO8601()
+    .toDate()
+    .withMessage("Invalid date format"),
+
+  body("gender")
+    .notEmpty()
+    .withMessage("Gender is required")
+    .isIn(["m", "f", "o"])
+    .withMessage("Invalid gender"),
+
+  body("address").notEmpty().withMessage("Address is required"),
+  (req: Request, res: Response, next: NextFunction) => {
+    const error = validationResult(req);
+    if (!error.isEmpty()) {
+      return res
+        .status(400)
+        .json(new ApiResponse(400, { error: error.array() }));
+    }
+    next();
+  },
+]

@@ -1,7 +1,7 @@
 import { Router } from "express";
 import UserController from "./user.controller";
 import AuthMiddleware from "../auth/auth.middleware";
-import { validateUser } from "../middleware/validators";
+import { validateUser, validateUserUpdate } from "../middleware/validators";
 
 const userRouter = Router();
 
@@ -14,6 +14,9 @@ userRouter
 
 userRouter
   .route("/:id")
+   .put(validateUserUpdate,UserController.updateUser)
   .delete(UserController.deleteUser);
+
+
 
 export default userRouter;
