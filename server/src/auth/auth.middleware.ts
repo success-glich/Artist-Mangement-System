@@ -32,6 +32,7 @@ const AuthMiddleware = {
         id,
       ]);
       req.user = user.rows[0];
+      next();
     } catch (err) {
       console.log("auth middleware ::", err);
       const error = createHttpError(401, "Invalid token");
@@ -39,3 +40,5 @@ const AuthMiddleware = {
     }
   },
 };
+
+export default AuthMiddleware

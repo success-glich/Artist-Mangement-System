@@ -1,4 +1,3 @@
-import { register } from 'module';
 import { Pool } from "pg";
 import { User } from "./auth.types";
 import authHelper from './auth.helper';
