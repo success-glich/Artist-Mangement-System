@@ -4,7 +4,7 @@ import pool from "./db";
 const createTables = async () => {
     try {
 
-        await pool.query(`CREATE TABLE IF NOT EXISTS "admin"(
+    await pool.query(`CREATE TABLE IF NOT EXISTS "admin"(
     id SERIAL PRIMARY KEY,
     name VARCHAR(255),
     username VARCHAR(255) UNIQUE,

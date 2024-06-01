@@ -8,7 +8,10 @@ const _config = {
     pgDatabase:String(process.env.PG_DATABASE),
     pgPassword:String(process.env.PG_PASSWORD),
     pgPort:String(process.env.PG_PORT),
-    env:String(process.env.NODE_ENV)
+    env:String(process.env.NODE_ENV),
+    saltRounds:Number(process.env.SALT_ROUNDS),
+    jwtSecret:String(process.env.JWT_SECRET),
+    jwtExpiration:String(process.env.JWT_EXPIRATION)
    
 
 }
