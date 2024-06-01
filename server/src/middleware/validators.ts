@@ -5,7 +5,7 @@ import { ApiResponse } from "../helper/ApiResponse";
 function validationCheck(req: Request, res: Response, next: NextFunction) {
   const error = validationResult(req);
   if (!error.isEmpty()) {
-    return res.status(400).json(new ApiResponse(400, { error: error.array() }));
+    return res.status(400).json(new ApiResponse(400, { error: error.array() },"All field are required with proper validation."));
   }
   next();
 }

@@ -84,29 +84,34 @@ const ArtistController = {
   updateArtist: async (req: Request, res: Response, next: NextFunction) => {
     try {
       const id = Number(req.params.id);
-      const { first_name, last_name, email, phone, dob, gender, address } =
-        req.body;
+      const {
+        name,
+        dob,
+        gender,
+        address,
+        first_release_year,
+        no_of_albums_released
+      } = req.body;
 
       const existingArtist = await artistServices.getArtistById(id);
       if (!existingArtist) {
          return next(createHttpError(404, "Artist not found") );
       } 
      
-
-    //   await userServices.updateUserById({
-    //     id,
-    //     first_name,
-    //     last_name,
-    //     email,
-    //     phone,
-    //     dob,
-    //     gender,
-    //     address,
-    //   });
+      await artistServices.updateArtistById({
+        id,
+        name,
+        dob,
+        gender,
+        address,
+        first_release_year,
+        no_of_albums_released
+      });
+  
 
       return res
         .status(201)
-        .json(new ApiResponse(200, null, "artist updated successfully!"));
+        .json(new ApiResponse(200, null, "Artist updated successfully!"));
     } catch (err: any) {
       console.log("Error while updating artist:", err);
       const error = createHttpError(500, err.message);
