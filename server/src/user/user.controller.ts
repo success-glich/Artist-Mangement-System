@@ -17,6 +17,12 @@ const UserController = {
         address,
       } = req.body;
 
+      //* check email duplication validation
+      const checkDuplicationEmail = await userServices.getUserByEmail(email);
+      if (checkDuplicationEmail){
+          const error = createHttpError(400, "Email already exists");
+          return next(error);
+      }
       // * business logic
       const registerUser = await userServices.createUser({
         first_name,
@@ -36,7 +42,7 @@ const UserController = {
         );
     } catch (err: any) {
       console.log("Error creating user:", err);
-      const error = createHttpError(400, err.message);
+      const error = createHttpError(500, err.message);
       next(error);
     }
   },
@@ -97,7 +103,7 @@ const UserController = {
         const checkDuplicationEmail = await userServices.getUserByEmail(email);
         if (checkDuplicationEmail){
             const error = createHttpError(400, "Email already exists");
-            next(error);
+            return next(error);
         }
       }
 
