@@ -3,7 +3,7 @@ import { config } from '../config/config';
 
 export default class TokenHelper {
 
-    static async generateToken(payload: any, option: SignOptions = { expiresIn: "7d" }) {
+    static async generateToken(payload: any, option: SignOptions = { expiresIn: config.jwtExpiration }) {
         try {
             const token = jwt.sign(payload, config.jwtSecret as string, { ...option });
             return token;
