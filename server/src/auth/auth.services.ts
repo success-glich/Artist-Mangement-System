@@ -4,8 +4,6 @@ import { User } from "./auth.types";
 import authHelper from './auth.helper';
 import TokenHelper from '../helper/TokenHelper';
 
-
-
 class AuthService {
    private pool:Pool;
 
