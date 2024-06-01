@@ -2,6 +2,8 @@ import { register } from 'module';
 import { Pool } from "pg";
 import { User } from "./auth.types";
 import authHelper from './auth.helper';
+import TokenHelper from '../helper/TokenHelper';
+
 
 
 class AuthService {
@@ -35,6 +37,36 @@ class AuthService {
     }
     
    }
+   async loginUser({username, password}:Partial<User>){
+    const client = await this.pool.connect();
+    try{
+    const existingUser = await client.query('SELECT * FROM "admin" WHERE username = $1', [username]);
+    if (existingUser.rows.length === 0) {
+        throw new Error('User not found');
+    }
+    const user = existingUser.rows[0];
+    const isPasswordValid = await authHelper.compareHash(password!, user.password);
+
+    if (!isPasswordValid) {
+        throw new Error('Invalid password');
+    }
+
+    // * we can also maintain  uuid for secured purposed.
+    const accessToken =await TokenHelper.generateToken({sub:user.id})
+    return {accessToken,user:{
+        id:user.id,
+        name:user.name,
+        username:user.username
+    }};
+    }catch(err){
+        console.error('Error logging in user:', err)
+        throw new Error('Error logging in user')
+
+    }finally{
+        client.release()
+    }
+
+}
 }
 
 export default AuthService

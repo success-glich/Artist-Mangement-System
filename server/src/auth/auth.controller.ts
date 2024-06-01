@@ -24,7 +24,7 @@ const AuthController = {
             const {  username, password } = req.body
 
             // * business logic
-            const registerUser = await authService.registerUser({ name, username, password });
+            const registerUser = await authService.loginUser({ username, password });
 
             return res.status(201).json(new ApiResponse(201, registerUser, "Register successfully!"));
         } catch (err: any) {
