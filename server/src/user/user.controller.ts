@@ -53,13 +53,32 @@ const UserController = {
         .status(201)
         .json(
           new ApiResponse(
-            201,
+            200,
             { currentPage: page, total: users.length, users },
             "User fetched Successfully1!"
           )
         );
     } catch (err: any) {
       console.log("Error while fetching users:", err);
+      const error = createHttpError(400, err.message);
+      next(error);
+    }
+  },
+  deleteUser: async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const id = Number(req.params.id);
+
+      // * business logic
+      const rows = await userServices.deleteUserById(id);
+
+      if (rows.length < 1) {
+        throw new Error("User not found");
+      }
+      return res
+        .status(201)
+        .json(new ApiResponse(200, "User data deleted successfully!"));
+    } catch (err: any) {
+      console.log("Error while deleting users:", err);
       const error = createHttpError(400, err.message);
       next(error);
     }

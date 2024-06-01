@@ -75,7 +75,18 @@ class UserServices {
     }
   }
   async updateUserById() {}
-  async deleteUserById() {}
+
+  async deleteUserById(id:number) {
+    const client = await this.pool.connect();
+    try {
+      const res = await client.query('DELETE FROM "user" WHERE id = $1', [id]);
+      return res.rows;
+    } catch (err: any) {
+      throw new Error(err);
+    } finally {
+      client.release();
+    }
+  }
 }
 
 export default UserServices;
