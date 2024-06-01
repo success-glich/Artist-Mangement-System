@@ -12,25 +12,25 @@ const ArtistController = {
         dob,
         gender,
         address,
+        first_release_year,
+        no_of_albums_released
       } = req.body;
 
-      //* check email duplication validation
-      // * business logic
-    //   const registerUser = await userServices.createUser({
-    //     first_name,
-    //     last_name,
-    //     email,
-    //     password,
-    //     phone,
-    //     dob,
-    //     gender,
-    //     address,
-    //   });
+     // * business logic
+     const newArtist = await artistServices.createArtist({
+        name,
+        dob,
+        gender,
+        address,
+        first_release_year,
+        no_of_albums_released
+      });
+   
 
       return res
         .status(201)
         .json(
-          new ApiResponse(201, null, "Artist created Successfully1!")
+          new ApiResponse(201, newArtist, "Artist created Successfully1!")
         );
     } catch (err: any) {
       console.log("Error creating artist:", err);
@@ -88,16 +88,10 @@ const ArtistController = {
         req.body;
 
       const existingArtist = await artistServices.getArtistById(id);
-      if (!existingArtist) throw new Error("Artist not found");
-
-      //* Check email duplication
-      if (email !== existingUser.email) {
-        const checkDuplicationEmail = await userServices.getUserByEmail(email);
-        if (checkDuplicationEmail){
-            const error = createHttpError(400, "Email already exists");
-            return next(error);
-        }
-      }
+      if (!existingArtist) {
+         return next(createHttpError(404, "Artist not found") );
+      } 
+     
 
     //   await userServices.updateUserById({
     //     id,
@@ -112,9 +106,9 @@ const ArtistController = {
 
       return res
         .status(201)
-        .json(new ApiResponse(200, null, "User data updated successfully!"));
+        .json(new ApiResponse(200, null, "artist updated successfully!"));
     } catch (err: any) {
-      console.log("Error while updating users:", err);
+      console.log("Error while updating artist:", err);
       const error = createHttpError(500, err.message);
       next(error);
     }

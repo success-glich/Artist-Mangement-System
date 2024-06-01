@@ -14,25 +14,17 @@ class ArtistServices {
     dob,
     gender,
     address,
-    no_of_albums_released
+    no_of_albums_released,
   }: Artist) {
     const client = await this.pool.connect();
     try {
-      
-        const res = await client.query(
+      const res = await client.query(
         'INSERT INTO "artist" (name,dob, gender,address,first_release_year,no_of_albums_released) VALUES ($1, $2, $3, $4, $5,$6) RETURNING *',
-        [
-          name,
-          dob,
-          gender,
-          address,
-          first_release_year,
-          no_of_albums_released
-        ]
+        [name, dob, gender, address, first_release_year, no_of_albums_released]
       );
 
       const newArtist = res.rows[0];
-          return newArtist;
+      return newArtist;
     } catch (err: any) {
       throw new Error(err);
     } finally {
@@ -40,7 +32,7 @@ class ArtistServices {
     }
   }
 
-  // list users with pagination
+  //* list artists with pagination
   async getArtists(page: number = 1, limit: number = 10) {
     const client = await this.pool.connect();
     const offset = (page - 1) * limit;
@@ -65,7 +57,7 @@ class ArtistServices {
     dob,
     gender,
     address,
-    no_of_albums_released
+    no_of_albums_released,
   }: Artist) {
     const client = await this.pool.connect();
 
@@ -81,18 +73,19 @@ class ArtistServices {
         no_of_albums_released = $6
         WHERE id = $7`;
       const values = [
-         name,
-         first_release_year,
-         dob,
-         gender,
-         address,
-         no_of_albums_released,
-         id
+        name,
+        first_release_year,
+        dob,
+        gender,
+        address,
+        no_of_albums_released,
+        id,
       ];
 
       const res = await client.query(query, values);
-      
-      if(res.rowCount===0) throw new Error("Something wrong when updating users");
+
+      if (res.rowCount === 0)
+        throw new Error("Something wrong when updating users");
       return;
     } catch (err: any) {
       throw new Error(err);
@@ -104,7 +97,9 @@ class ArtistServices {
   async deleteArtistById(id: number) {
     const client = await this.pool.connect();
     try {
-      const res = await client.query('DELETE FROM "artist" WHERE id = $1', [id]);
+      const res = await client.query('DELETE FROM "artist" WHERE id = $1', [
+        id,
+      ]);
       return res.rows;
     } catch (err: any) {
       throw new Error(err);
@@ -125,6 +120,5 @@ class ArtistServices {
       client.release();
     }
   }
-  
 }
 export default ArtistServices;

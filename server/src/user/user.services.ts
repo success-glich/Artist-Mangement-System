@@ -1,5 +1,5 @@
 import { Pool } from "pg";
-import { IGetUsersList, User } from "./user.types";
+import { User } from "./user.types";
 import authHelper from "../auth/auth.helper";
 
 class UserServices {
