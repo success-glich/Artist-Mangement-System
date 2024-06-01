@@ -8,6 +8,7 @@ const _config = {
     pgDatabase:String(process.env.PG_DATABASE),
     pgPassword:String(process.env.PG_PASSWORD),
     pgPort:String(process.env.PG_PORT),
+    env:String(process.env.NODE_ENV)
    
 
 }

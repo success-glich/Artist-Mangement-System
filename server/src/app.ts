@@ -1,5 +1,6 @@
 import express from "express";
 import router from "./router";
+import globalErrorHandler from "./middleware/global.error.handler";
 
 const app =express();
 
@@ -17,6 +18,9 @@ app.use("/api/v1",router);
 app.use("*",(_,res)=>{
     res.status(404).send("Not Found");
 })
+
+// * Global Error Handler
+app.use(globalErrorHandler)
 
 
 export default app;
