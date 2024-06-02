@@ -10,6 +10,7 @@ import RegisterPage from "./pages/RegisterPage";
 import DashboardLayout from "./layouts/DashboardLayout";
 import HomePage from "./pages/HomePage";
 import UserPage from "./pages/UserPage";
+import ArtistPage from "./pages/ArtistPage";
 
 const router = createBrowserRouter([
 
@@ -45,6 +46,11 @@ const router = createBrowserRouter([
       {
         path: "users",
         element: <UserPage />
+
+      },
+      {
+        path: "artists",
+        element: <ArtistPage />
 
       }
     ]

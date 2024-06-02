@@ -45,7 +45,7 @@ function DashboardLayout() {
                                 Dashboard
                             </Link>
                             <Link
-                                to="#"
+                                to="/dashboard/users"
                                 className="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary"
                             >
                                 <User className="h-4 w-4" />
@@ -53,7 +53,7 @@ function DashboardLayout() {
 
                             </Link>
                             <Link
-                                to="#"
+                                to="/dashboard/artists"
                                 className="flex items-center gap-3 rounded-lg bg-muted px-3 py-2 text-primary transition-all hover:text-primary"
                             >
                                 <Vibrate className="h-4 w-4" />
@@ -98,7 +98,7 @@ function DashboardLayout() {
                                     Dashboard
                                 </Link>
                                 <Link
-                                    to="#"
+                                    to="/dashboard/users"
                                     className="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary"
                                 >
                                     <User className="h-4 w-4" />
@@ -106,7 +106,7 @@ function DashboardLayout() {
 
                                 </Link>
                                 <Link
-                                    to="#"
+                                    to="/dashboard/artists"
                                     className="flex items-center gap-3 rounded-lg bg-muted px-3 py-2 text-primary transition-all hover:text-primary"
                                 >
                                     <Vibrate className="h-4 w-4" />
@@ -141,7 +141,7 @@ function DashboardLayout() {
                             <DropdownMenuItem>Settings</DropdownMenuItem>
                             <DropdownMenuItem>Support</DropdownMenuItem>
                             <DropdownMenuSeparator />
-                            <DropdownMenuItem className="bg-red-500 text-white">Logout</DropdownMenuItem>
+                            <DropdownMenuItem className="cursor-pointer">Logout</DropdownMenuItem>
                         </DropdownMenuContent>
                     </DropdownMenu>
                 </header>

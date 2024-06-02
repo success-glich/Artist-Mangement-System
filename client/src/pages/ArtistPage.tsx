@@ -27,7 +27,7 @@ import {
 } from "@/components/ui/table";
 import { File, ListFilter, MoreHorizontal, PlusCircle } from "lucide-react";
 
-const UserPage = () => {
+function ArtistPage() {
     return (
         <>
             <div>
@@ -61,7 +61,7 @@ const UserPage = () => {
                         <Button size="sm" className="h-7 gap-1">
                             <PlusCircle className="h-3.5 w-3.5" />
                             <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
-                                Add User
+                                Add Artist
                             </span>
                         </Button>
                     </div>
@@ -69,9 +69,9 @@ const UserPage = () => {
                 <section>
                     <Card x-chunk="dashboard-06-chunk-0">
                         <CardHeader>
-                            <CardTitle>Users</CardTitle>
+                            <CardTitle>Artists</CardTitle>
                             <CardDescription>
-                                Manage your users and view their interest .
+                                Manage your artists and view their musics .
                             </CardDescription>
                         </CardHeader>
                         <CardContent>
@@ -150,6 +150,6 @@ const UserPage = () => {
             </div>
         </>
     );
-};
+}
 
-export default UserPage;
+export default ArtistPage;
