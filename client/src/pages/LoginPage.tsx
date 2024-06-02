@@ -12,6 +12,7 @@ import { Label } from "@/components/ui/label"
 import { useToast } from "@/components/ui/use-toast"
 import { login } from "@/http/api"
 import { useMutation } from "@tanstack/react-query"
+import { LoaderCircle } from "lucide-react"
 import { useRef } from "react"
 import { Link, useNavigate } from "react-router-dom"
 
@@ -75,7 +76,12 @@ function LoginPage() {
                 </CardContent>
                 <CardFooter>
                     <div className="w-full  text-center ">
-                        <Button className="w-full" onClick={handleLogin}>Sign in</Button>
+                        <div>
+
+                            <Button className="w-full" onClick={handleLogin} disabled={mutation.isPending}>
+                                {mutation.isPending && <LoaderCircle className="mr-2 h-4 w-4 animate-spin" />}
+                                {mutation.isPending ? "Processing..." : "Sign In"}</Button>
+                        </div>
                         <div className="text-sm mt-4">
                             New to our platform ?{" "}
                             <Link to="/auth/register" className="underline">
