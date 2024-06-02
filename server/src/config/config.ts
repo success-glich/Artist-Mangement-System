@@ -11,7 +11,8 @@ const _config = {
     env:String(process.env.NODE_ENV),
     saltRounds:Number(process.env.SALT_ROUNDS),
     jwtSecret:String(process.env.JWT_SECRET),
-    jwtExpiration:String(process.env.JWT_EXPIRATION)
+    jwtExpiration:String(process.env.JWT_EXPIRATION),
+    frontendDomain:String(process.env.FRONTEND_DOMAIN)
    
 
 }

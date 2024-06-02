@@ -1,6 +1,8 @@
 import express from "express";
 import router from "./router";
 import globalErrorHandler from "./middleware/global.error.handler";
+import cors from "cors";
+import { config } from "./config/config";
 
 const app =express();
 
@@ -10,6 +12,10 @@ app.get("/get-health",(_,res)=>{
 });
 
 //* middleware 
+app.use(cors({
+    origin:config.frontendDomain
+}));
+
 app.use(express.json());
 app.use(express.urlencoded({extended:true}));
 
