@@ -17,7 +17,7 @@ class MusicService {
     const client = await this.pool.connect();
     try {
       const res = await client.query(
-        'INSERT INTO "music" (artistId,title,albumName, genre) VALUES ($1, $2, $3, $4) RETURNING *',
+        'INSERT INTO "music" (artist_id,title,album_name, genre) VALUES ($1, $2, $3, $4) RETURNING *',
         [artist_id, title, album_name, genre]
       );
 

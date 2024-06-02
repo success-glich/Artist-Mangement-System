@@ -7,7 +7,7 @@ const router = Router()
 
 router.use("/users",userRouter);
 router.use('/auth',authRouter);
-router.use("/music",musicRouter);
+router.use("/musics",musicRouter);
 router.use("/artists",artistRouter)
 
 
