@@ -7,6 +7,10 @@ import AuthLayout from "./layouts/AuthLayout";
 import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
 
+import DashboardLayout from "./layouts/DashboardLayout";
+import HomePage from "./pages/HomePage";
+import UserPage from "./pages/UserPage";
+
 const router = createBrowserRouter([
 
   {
@@ -30,8 +34,20 @@ const router = createBrowserRouter([
     ]
   },
   {
-    path: "/dashboard",
-    element: <div>Dashboard</div>
+    path: "dashboard",
+    element: <DashboardLayout />,
+    children: [
+      {
+        path: "home",
+        element: <HomePage />
+
+      },
+      {
+        path: "users",
+        element: <UserPage />
+
+      }
+    ]
 
   }
 ]);
