@@ -12,3 +12,6 @@ const api = axios.create({
 api.interceptors.request.use((request) => {
     return request;
 });
+
+export const login = (data:{username:string,password:string})=>
+    api.post("/auth/login", data);

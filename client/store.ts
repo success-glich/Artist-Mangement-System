@@ -15,7 +15,7 @@ const useTokenStore = create<TokenStore>()(
           setToken: (data:string) => set(() => ({ token:data})),
         }),
         {
-          name: 'bear-storage',
+          name: 'token-storage',
         },
       ),
     ),

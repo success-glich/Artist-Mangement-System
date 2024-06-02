@@ -24,13 +24,13 @@ const AuthController = {
             const {  username, password } = req.body
 
             // * business logic
-            const registerUser = await authService.loginUser({ username, password });
+            const loginUser = await authService.loginUser({ username, password });
 
-            return res.status(201).json(new ApiResponse(201, registerUser, "Register successfully!"));
+            return res.status(201).json(new ApiResponse(201, loginUser, "Login successfully!"));
         } catch (err: any) {
             console.log("Error creating user:", err);
             const error = createHttpError(400, err.message);
-            next(err);
+            next(error);
         }
     },
 }

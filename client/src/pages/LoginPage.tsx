@@ -9,19 +9,45 @@ import {
 } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
+import { useToast } from "@/components/ui/use-toast"
+import { login } from "@/http/api"
+import { useMutation } from "@tanstack/react-query"
 import { useRef } from "react"
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 
 function LoginPage() {
     const usernameRef = useRef<HTMLInputElement>(null);
     const passwordRef = useRef<HTMLInputElement>(null);
+    const { toast } = useToast();
+    const navigate = useNavigate();
+
+    const mutation = useMutation({
+        mutationFn: login,
+        onSuccess: (data) => {
+            toast({
+                variant: "success",
+                title: data.data.message,
+            })
+            navigate("/dashboard/home");
+
+        }
+    });
 
     const handleLogin = () => {
         const username = usernameRef.current?.value;
         const password = passwordRef.current?.value;
 
-        // Perform login logic here
-        console.log(`Logging in with email: ${username} and password: ${password}`);
+        if (!username || !password) {
+            return alert("Please enter username and password!");
+        }
+
+
+        mutation.mutate({
+            username: username,
+            password: password
+        })
+
+
     }
 
     return (
@@ -31,6 +57,10 @@ function LoginPage() {
                     <CardTitle className="text-2xl">Login</CardTitle>
                     <CardDescription>
                         Enter your email below to login to your account.
+                        <br />
+
+                        {mutation.isError && <span className="text-sm text-red-500">something went wrong</span>}
+
                     </CardDescription>
                 </CardHeader>
                 <CardContent className="grid gap-4">

@@ -39,13 +39,13 @@ class AuthService {
     try{
     const existingUser = await client.query('SELECT * FROM "admin" WHERE username = $1', [username]);
     if (existingUser.rows.length === 0) {
-        throw new Error('User not found');
+        throw new Error('Invalid Credentials !');
     }
     const user = existingUser.rows[0];
     const isPasswordValid = await authHelper.compareHash(password!, user.password);
 
     if (!isPasswordValid) {
-        throw new Error('Invalid password');
+        throw new Error('Invalid Credentials !');
     }
 
     // * we can also maintain  uuid for secured purposed.
