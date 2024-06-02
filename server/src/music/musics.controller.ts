@@ -44,7 +44,7 @@ const MusicController = {
       // * business logic
       const musics = await musicServices.getMusics(page, limit);
       return res
-        .status(201)
+        .status(200)
         .json(
           new ApiResponse(
             200,
@@ -62,16 +62,17 @@ const MusicController = {
     try {
       const id = Number(req.params.id);
       const artist_id = Number(req.params.artistId);
-
-      // * business logic
-    //   const rows = await userServices.deleteUserById(id);
-
-    //   if (rows.length < 1) {
-    //     throw new Error("User not found");
-      const rows = await musicServices.deleteMusicById(id,artist_id)//   }
-
-      return res
-        .status(201)
+      const existingMusic = await musicServices.getMusicById(id);
+      if (!existingMusic) {
+         return next(createHttpError(404, "Musics not found") );
+      } 
+        
+      const rows = await musicServices.deleteMusicById(id,artist_id);
+      if (!rows) {
+        next(createHttpError(404,"music not found"))
+      }
+        return res
+        .status(200)
         .json(new ApiResponse(200, null, "Artist deleted successfully!"));
     } catch (err: any) {
       console.log("Error while deleting artists:", err);
@@ -98,7 +99,7 @@ const MusicController = {
   
 
       return res
-        .status(201)
+        .status(200)
         .json(new ApiResponse(200, null, "Musics updated successfully!"));
     } catch (err: any) {
       console.log("Error while updating musics:", err);
