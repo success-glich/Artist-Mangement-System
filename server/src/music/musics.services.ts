@@ -9,16 +9,16 @@ class MusicService {
     this.pool.connect();
   }
   async createMusic({
-    artistId,
+    artist_id,
     title,
-    albumName,
+    album_name,
     genre
       }: Music) {
     const client = await this.pool.connect();
     try {
       const res = await client.query(
         'INSERT INTO "music" (artistId,title,albumName, genre) VALUES ($1, $2, $3, $4) RETURNING *',
-        [artistId, title, albumName, genre]
+        [artist_id, title, album_name, genre]
       );
 
       const newSong = res.rows[0];
@@ -50,9 +50,8 @@ class MusicService {
   async updateMusicById({
     id,
     title,
-    albumName,
-    genre
-    
+    album_name,
+    genre,
   }: Music) {
     const client = await this.pool.connect();
 
@@ -66,7 +65,7 @@ class MusicService {
       WHERE id = $4`;
       const values = [
         title,
-        albumName,
+        album_name,,
         genre,
         id,
       ];
@@ -103,6 +102,20 @@ class MusicService {
         id,
       ]);
       return res.rows[0];
+    } catch (err: any) {
+      throw new Error(err);
+    } finally {
+      client.release();
+    }
+  }
+  async getMusicByArtistId(id: number) {
+    const client = await this.pool.connect();
+    try {
+      const res = await client.query(
+        'SELECT * FROM "music" WHERE artistId = $1',
+        [id]
+      );
+      return res.rows;
     } catch (err: any) {
       throw new Error(err);
     } finally {
