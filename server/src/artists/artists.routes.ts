@@ -14,6 +14,7 @@ artistRouter
 
 artistRouter
   .route("/:id")
+  .get(ArtistController.getArtist)
    .put(validateArtist,ArtistController.updateArtist)
   .delete(ArtistController.deleteArtist);
 

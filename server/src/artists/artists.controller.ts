@@ -118,6 +118,22 @@ const ArtistController = {
       next(error);
     }
   },
+  getArtist: async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const id = Number(req.params.id);
+
+      // * business logic
+      const artist = await artistServices.getArtistById(id);
+
+      return res
+        .status(200)
+        .json(new ApiResponse(200, artist, "Artist fetched successfully!"));
+    } catch (err: any) {
+      console.log("Error while fetching artist:", err);
+      const error = createHttpError(500, err.message);
+      next(error);
+    }
+  },
 };
 
 export default ArtistController;
