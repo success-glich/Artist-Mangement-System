@@ -67,11 +67,11 @@ const ArtistController = {
       const id = Number(req.params.id);
 
       // * business logic
-    //   const rows = await userServices.deleteUserById(id);
+      const rows = await artistServices.deleteArtistById(id);
 
-    //   if (rows.length < 1) {
-    //     throw new Error("User not found");
-    //   }
+      if (!rows) {
+        throw new Error("User not found");
+      }
       return res
         .status(201)
         .json(new ApiResponse(200, null, "Artist deleted successfully!"));
