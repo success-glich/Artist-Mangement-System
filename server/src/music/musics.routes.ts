@@ -1,21 +1,24 @@
 import { Router } from "express";
 import AuthMiddleware from "../auth/auth.middleware";
-import ArtistController from "./artists.controller";
 import { validateArtist } from "../middleware/validators";
+import MusicController from "./musics.controller";
 
-const artistRouter = Router();
+const musicRouter = Router();
 
-artistRouter.use(AuthMiddleware.isAuthenticated);
+musicRouter.use(AuthMiddleware.isAuthenticated);
 
-artistRouter
+musicRouter
   .route("/")
-  .get(ArtistController.getArtists)
-  .post(validateArtist, ArtistController.createArtist);
+  .get(MusicController.getMusics)
+  .post(validateArtist, MusicController.createMusic);
 
-artistRouter
+musicRouter
   .route("/:id")
-   .put(validateArtist,ArtistController.updateArtist)
-  .delete(ArtistController.deleteArtist);
+   .put(validateArtist,MusicController.updateMusic)
+  .delete(MusicController.deleteMusics);
 
+musicRouter
+.route( "/:artistId/:id")
+.get(MusicController.getMusicsByArtistId)
 
-export default artistRouter;
+export default musicRouter;
