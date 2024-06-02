@@ -61,13 +61,15 @@ const MusicController = {
   deleteMusics: async (req: Request, res: Response, next: NextFunction) => {
     try {
       const id = Number(req.params.id);
+      const artist_id = Number(req.params.artistId);
 
       // * business logic
     //   const rows = await userServices.deleteUserById(id);
 
     //   if (rows.length < 1) {
     //     throw new Error("User not found");
-    //   }
+      const rows = await musicServices.deleteMusicById(id,artist_id)//   }
+
       return res
         .status(201)
         .json(new ApiResponse(200, null, "Artist deleted successfully!"));
@@ -80,19 +82,19 @@ const MusicController = {
   updateMusic: async (req: Request, res: Response, next: NextFunction) => {
     try {
       const id = Number(req.params.id);
+      const artist_id=Number(req.params.artistId);
       const {
-        artist_id,
         genre,
         title,
         album_name,
         } = req.body;
 
-      const existingArtist = await musicServices.getMusicById(id);
-      if (!existingArtist) {
+      const existingMusic = await musicServices.getMusicById(id);
+      if (!existingMusic) {
          return next(createHttpError(404, "Musics not found") );
       } 
      
-      await musicServices.updateMusicById({id,artist_id,genre,title,album_name});
+      await musicServices.updateMusicByArtistId({id,genre,title,album_name,artist_id});
   
 
       return res
@@ -106,7 +108,7 @@ const MusicController = {
   },
   getMusicsByArtistId: async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const id = Number(req.params.id);
+      const id = Number(req.params.artistId);
 
       // * business logic
       const music = await musicServices.getMusicByArtistId(id);

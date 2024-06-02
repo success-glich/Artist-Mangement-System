@@ -171,7 +171,7 @@ export const validateArtist = [
 ];
 
 export const validateMusic = [
-  body('artist_id').isInt().withMessage('Artist ID must be an integer'),
+  body('artist_id').optional().isInt().withMessage('Artist ID must be an integer'),
   body('title').isString().withMessage('Title must be a string'),
   body('album_name').isString().withMessage('Album name must be a string'),
   body('genre').isIn(['rnb', 'country', 'classic', 'rock', 'jazz']).withMessage('Genre must be one of rnb, country, classic, rock, jazz'),

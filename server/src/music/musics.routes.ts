@@ -13,12 +13,12 @@ musicRouter
   .post(validateMusic, MusicController.createMusic);
 
 musicRouter
-  .route("/:id")
+  .route("/:artistId/:id")
    .put(validateMusic,MusicController.updateMusic)
   .delete(MusicController.deleteMusics);
 
 musicRouter
-.route( "/:artistId/:id")
+.route( "/:artistId")
 .get(MusicController.getMusicsByArtistId)
 
 export default musicRouter;
