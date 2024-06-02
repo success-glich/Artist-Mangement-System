@@ -104,6 +104,21 @@ const MusicController = {
       next(error);
     }
   },
+  getMusicsByArtistId: async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const id = Number(req.params.id);
+
+      // * business logic
+      const music = await musicServices.getMusicByArtistId(id);
+      return res
+        .status(200)
+        .json(new ApiResponse(200, music, "Music fetched successfully!"));
+    } catch (err: any) {
+      console.log("Error while fetching musics:", err);
+      const error = createHttpError(500, err.message);
+      next(error);
+    }
+  },
 };
 
 export default MusicController;
