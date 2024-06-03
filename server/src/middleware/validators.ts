@@ -14,7 +14,7 @@ export const validateAdminRegister = [
   body("username")
     .notEmpty()
     .withMessage("Username is required")
-    .isLength({ max: 255 })
+    .isLength({ min:6,max: 255 })
     .withMessage("Password must be at least 6 characters"),
   body("password")
     .isLength({ min: 6 })

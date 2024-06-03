@@ -9,21 +9,44 @@ import {
 } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
+import { useToast } from "@/components/ui/use-toast"
+import { register } from "@/http/api"
+import { useMutation } from "@tanstack/react-query"
+import { LoaderCircle } from "lucide-react"
 import { useRef } from "react"
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 
 function RegisterPage() {
     const nameRef = useRef<HTMLInputElement>(null);
     const usernameRef = useRef<HTMLInputElement>(null);
     const passwordRef = useRef<HTMLInputElement>(null);
+    const navigate = useNavigate();
+    const { toast } = useToast();
 
+    const mutation = useMutation({
+        mutationFn: register,
+        onSuccess: (res) => {
+            toast({
+                variant: "success",
+                title: res.data.message,
+            });
+            navigate("/auth/login");
+
+        }
+    });
     const handleRegister = () => {
         const username = usernameRef.current?.value;
         const password = passwordRef.current?.value;
         const name = nameRef.current?.value;
+        if (!username || !password || !name) {
+            return toast({
+                variant: "destructive",
+                title: "Please fill all the fields"
+            })
+        }
 
-        // Perform login logic here
-        console.log(`name ${name} Logging in with email: ${username} and password: ${password}`);
+        mutation.mutate({ username, password, name });
+
     }
 
     return (
@@ -33,6 +56,8 @@ function RegisterPage() {
                     <CardTitle className="text-2xl">Sign Up</CardTitle>
                     <CardDescription>
                         Enter your email below to sign up.
+                        <br />
+                        {mutation.isError && <span className="text-sm text-red-500">something went wrong</span>}
                     </CardDescription>
                 </CardHeader>
                 <CardContent className="grid gap-4">
@@ -52,7 +77,10 @@ function RegisterPage() {
                 </CardContent>
                 <CardFooter>
                     <div className="w-full  text-center ">
-                        <Button className="w-full" onClick={handleRegister}>Register</Button>
+
+                        <Button className="w-full" onClick={handleRegister} disabled={mutation.isPending}>
+                            {mutation.isPending && <LoaderCircle className="mr-2 h-4 w-4 animate-spin" />}
+                            {mutation.isPending ? "Processing..." : "Register"}</Button>
                         <div className="text-sm mt-4">
                             Already have an account ?{" "}
                             <Link to="/auth/login" className="underline">
