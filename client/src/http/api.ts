@@ -20,4 +20,8 @@ api.interceptors.request.use((config) => {
 export const login = (data:{username:string,password:string})=>
     api.post("/auth/login", data);
 
-export const getUsers = async () => api.get("/users");
+export const getUsers = async (page:number=1,limit:number=5) => {
+
+
+  return  (await api.get(`/users/?page=${page}&limit=${limit}`)).data;
+}

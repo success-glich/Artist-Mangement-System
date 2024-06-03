@@ -3,6 +3,7 @@ import router from "./router";
 import globalErrorHandler from "./middleware/global.error.handler";
 import cors from "cors";
 import { config } from "./config/config";
+import morgan from "morgan";
 
 const app =express();
 
@@ -15,6 +16,8 @@ app.get("/get-health",(_,res)=>{
 app.use(cors({
     origin:config.frontendDomain
 }));
+
+app.use(morgan("combined"))
 
 app.use(express.json());
 app.use(express.urlencoded({extended:true}));

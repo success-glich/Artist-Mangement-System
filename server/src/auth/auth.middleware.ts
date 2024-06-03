@@ -13,6 +13,7 @@ const AuthMiddleware = {
     res: Response,
     next: NextFunction
   ) => {
+    const client = await pool.connect();
     const bearerToken = req.headers.authorization;
     if (!bearerToken) {
       const error = createHttpError(401, "Bearer token is not provided");
@@ -27,7 +28,7 @@ const AuthMiddleware = {
 
     try {
       const { sub: id } = await TokenHelper.verifyToken(token);
-      const client = await pool.connect();
+   
       const user = await client.query('SELECT * FROM "admin" WHERE id = $1', [
         id,
       ]);
@@ -37,6 +38,8 @@ const AuthMiddleware = {
       console.log("auth middleware ::", err);
       const error = createHttpError(401, "Invalid token");
       return next(error);
+    }finally{
+      client.release();
     }
   },
 };

@@ -60,16 +60,24 @@ class UserServices {
   async getUsers(page: number = 1, limit: number = 10) {
     const client = await this.pool.connect();
     const offset = (page - 1) * limit;
+    if(offset<0){
+      throw new Error("Invalid page number");
+    }
 
     try {
       const res = await client.query(
         'SELECT id, first_name, last_name, email, phone, dob, gender, address, created_at, updated_at FROM "user" LIMIT $1 OFFSET $2',
         [limit, offset]
       );
+      const totalCountResult = await client.query('SELECT COUNT(*) FROM "user"');
 
-      return res.rows;
+      return{ users:res.rows,
+        totalCount:Number(totalCountResult.rows[0].count)
+      };
     } catch (err: any) {
-      throw new Error(err);
+      console.error("Error while fetching users from database:", err.message);
+
+      throw new Error("Failed to fetch users.Please try again later.");
     } finally {
       client.release();
     }

@@ -1,5 +1,11 @@
-import { Badge } from "@/components/ui/badge";
-import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from "@/components/ui/breadcrumb";
+import {
+    Breadcrumb,
+    BreadcrumbItem,
+    BreadcrumbLink,
+    BreadcrumbList,
+    BreadcrumbPage,
+    BreadcrumbSeparator,
+} from "@/components/ui/breadcrumb";
 import { Button } from "@/components/ui/button";
 import {
     Card,
@@ -19,6 +25,13 @@ import {
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import {
+    Pagination,
+    PaginationContent,
+    PaginationItem,
+    PaginationNext,
+    PaginationPrevious,
+} from "@/components/ui/pagination";
+import {
     Table,
     TableBody,
     TableCell,
@@ -30,18 +43,28 @@ import { getUsers } from "@/http/api";
 import { formatDate } from "@/lib/utils/formatDate";
 import { formatGender } from "@/lib/utils/formatGender";
 import { User } from "@/types";
-import { useQuery } from "@tanstack/react-query";
+import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import { File, ListFilter, MoreHorizontal, PlusCircle } from "lucide-react";
+import { useState } from "react";
 
 const UserPage = () => {
 
-    const { data, isLoading, isError } = useQuery({
-        queryKey: ["users"],
-        queryFn: getUsers,
-        // staleTime: 6 * 1000// in milliseconds
-    });
-    // console.log("data", data?.data.data.users);
-    const users = data?.data.data.users;
+    const [page, setPage] = useState(1);
+    const { isPending, isError, error, data, isFetching, isPlaceholderData } =
+        useQuery({
+            queryKey: ["users", page],
+            queryFn: () => getUsers(page, 1),
+            // staleTime: 6 * 1000// in milliseconds
+            placeholderData: keepPreviousData,
+        });
+
+    const users = data?.data.users || [];
+    const totalPages = data?.data.total;
+
+    if (isError) {
+        return <div>Error: {error.message}</div>;
+    }
+
     return (
         <>
             <div>
@@ -53,7 +76,7 @@ const UserPage = () => {
                             </BreadcrumbItem>
                             <BreadcrumbSeparator />
                             <BreadcrumbItem>
-                                <BreadcrumbPage>Users</BreadcrumbPage>
+                                <BreadcrumbPage>Users</BreadcrumbPage>``
                             </BreadcrumbItem>
                         </BreadcrumbList>
                     </Breadcrumb>
@@ -110,7 +133,9 @@ const UserPage = () => {
                                         <TableHead>Email</TableHead>
                                         <TableHead>Phone</TableHead>
                                         <TableHead>Address</TableHead>
-                                        <TableHead className="hidden md:table-cell">Date of birth</TableHead>
+                                        <TableHead className="hidden md:table-cell">
+                                            Date of birth
+                                        </TableHead>
                                         <TableHead>Gender</TableHead>
                                         <TableHead className="hidden md:table-cell">
                                             Created at
@@ -124,39 +149,33 @@ const UserPage = () => {
                                     </TableRow>
                                 </TableHeader>
                                 <TableBody>
+                                    {isPending && (
+                                        <TableRow>
+                                            <TableCell colSpan={11} className="text-center">
+                                                Loading.....
+                                            </TableCell>
+                                        </TableRow>
+                                    )}
 
                                     {users?.map((user: User, index: number) => (
                                         <TableRow key={user.id}>
-                                            {/* <TableCell className="hidden sm:table-cell">
-                                                <img
-                                                    alt="Product image"
-                                                    className="aspect-square rounded-md object-cover"
-                                                    height="64"
-                                                    src="/placeholder.svg"
-                                                    width="64"
-                                                />
-                                            </TableCell> */}
-                                            <TableCell>
-                                                {index + 1}
-                                            </TableCell>
-                                            <TableCell >
-                                                {user.first_name}
-                                            </TableCell>
-                                            <TableCell >
-                                                {user.last_name}
-                                            </TableCell>
-                                            <TableCell >
-                                                {user.email}
-                                            </TableCell>
-                                            <TableCell>
-                                                {user.phone}
-                                            </TableCell>
+                                            <TableCell>{index + 1}</TableCell>
+                                            <TableCell>{user.first_name}</TableCell>
+                                            <TableCell>{user.last_name}</TableCell>
+                                            <TableCell>{user.email}</TableCell>
+                                            <TableCell>{user.phone}</TableCell>
                                             <TableCell>{user.address}</TableCell>
-                                            <TableCell className="hidden md:table-cell">{formatDate(user.dob.toString())}</TableCell>
+                                            <TableCell className="hidden md:table-cell">
+                                                {formatDate(user.dob.toString())}
+                                            </TableCell>
                                             <TableCell>{formatGender(user.gender)}</TableCell>
 
-                                            <TableCell className="hidden md:table-cell">{formatDate(user?.created_at?.toString() || "")}</TableCell>
-                                            <TableCell className="hidden md:table-cell">{formatDate(user?.updated_at?.toString() || "")}</TableCell>
+                                            <TableCell className="hidden md:table-cell">
+                                                {formatDate(user?.created_at?.toString() || "")}
+                                            </TableCell>
+                                            <TableCell className="hidden md:table-cell">
+                                                {formatDate(user?.updated_at?.toString() || "")}
+                                            </TableCell>
 
                                             <TableCell>
                                                 <DropdownMenu>
@@ -179,14 +198,41 @@ const UserPage = () => {
                                             </TableCell>
                                         </TableRow>
                                     ))}
-
                                 </TableBody>
                             </Table>
                         </CardContent>
                         <CardFooter>
-                            <div className="text-xs text-muted-foreground">
-                                Showing <strong>1-10</strong> of <strong>32</strong> products
-                            </div>
+                            <Pagination>
+                                <PaginationContent>
+                                    <PaginationItem>
+                                        <PaginationPrevious
+                                            className={`${page === 1 ? "pointer-events-none opacity-50" : ""
+                                                }`}
+                                            onClick={() => setPage((old) => Math.max(old - 1, 0))}
+                                            isActive={page === 0}
+                                        />
+                                    </PaginationItem>
+                                    {/* {renderPaginationItems()} */}
+                                    <PaginationItem>
+                                        <PaginationNext
+                                            className={`${page === totalPages
+                                                ? "pointer-events-none opacity-50"
+                                                : ""
+                                                }`}
+                                            onClick={() => {
+                                                console.log(data);
+                                                console.log({ page, totalPages });
+
+                                                if (!isPlaceholderData && data.data.total !== page) {
+                                                    setPage((old) => old + 1);
+                                                }
+                                            }}
+                                            isActive={isPlaceholderData || page === totalPages}
+                                        />
+                                    </PaginationItem>
+                                </PaginationContent>
+                            </Pagination>
+                            {isFetching ? <span> Loading...</span> : null}
                         </CardFooter>
                     </Card>
                 </section>

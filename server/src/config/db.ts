@@ -8,6 +8,9 @@ const pool = new Pool({
   database: config.pgDatabase,
   password: config.pgPassword,
   port: Number(config.pgPort),
+  max:20,
+  idleTimeoutMillis: 30000,
+  connectionTimeoutMillis: 2000,
 });
 
 export const checkConnection = async () => {

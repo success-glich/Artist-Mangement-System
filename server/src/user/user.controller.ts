@@ -48,19 +48,21 @@ const UserController = {
   },
   getUsers: async (req: Request, res: Response, next: NextFunction) => {
     try {
+      console.log("hello")
       const page = req.query.page ? parseInt(req.query.page as string, 10) : 1;
       const limit = req.query.limit
         ? parseInt(req.query.limit as string, 10)
         : 10;
+        console.log("called")
 
       // * business logic
-      const users = await userServices.getUsers(page, limit);
+      const {users,totalCount} = await userServices.getUsers(page, limit);
       return res
-        .status(201)
+        .status(200)
         .json(
           new ApiResponse(
             200,
-            { currentPage: page, total: users.length, users },
+            { currentPage: page, total: totalCount, users },
             "User fetched Successfully1!"
           )
         );
