@@ -25,9 +25,22 @@ import {
     TableHeader,
     TableRow,
 } from "@/components/ui/table";
+import { getUsers } from "@/http/api";
+import { formatDate } from "@/lib/utils/formatDate";
+import { formatGender } from "@/lib/utils/formatGender";
+import { User } from "@/types";
+import { useQuery } from "@tanstack/react-query";
 import { File, ListFilter, MoreHorizontal, PlusCircle } from "lucide-react";
 
 const UserPage = () => {
+
+    const { data, isLoading, isError } = useQuery({
+        queryKey: ["users"],
+        queryFn: getUsers,
+        // staleTime: 6 * 1000// in milliseconds
+    });
+    // console.log("data", data?.data.data.users);
+    const users = data?.data.data.users;
     return (
         <>
             <div>
@@ -78,17 +91,19 @@ const UserPage = () => {
                             <Table>
                                 <TableHeader>
                                     <TableRow>
-                                        <TableHead className="hidden w-[100px] sm:table-cell">
-                                            <span className="sr-only">Image</span>
-                                        </TableHead>
-                                        <TableHead>Name</TableHead>
-                                        <TableHead>Status</TableHead>
-                                        <TableHead>Price</TableHead>
-                                        <TableHead className="hidden md:table-cell">
-                                            Total Sales
-                                        </TableHead>
+                                        <TableHead>Sn</TableHead>
+                                        <TableHead>First name</TableHead>
+                                        <TableHead>Last name</TableHead>
+                                        <TableHead>Email</TableHead>
+                                        <TableHead>Phone</TableHead>
+                                        <TableHead>Address</TableHead>
+                                        <TableHead className="hidden md:table-cell">Date of birth</TableHead>
+                                        <TableHead>Gender</TableHead>
                                         <TableHead className="hidden md:table-cell">
                                             Created at
+                                        </TableHead>
+                                        <TableHead className="hidden md:table-cell">
+                                            Updated at
                                         </TableHead>
                                         <TableHead>
                                             <span className="sr-only">Actions</span>
@@ -96,47 +111,62 @@ const UserPage = () => {
                                     </TableRow>
                                 </TableHeader>
                                 <TableBody>
-                                    <TableRow>
-                                        <TableCell className="hidden sm:table-cell">
-                                            <img
-                                                alt="Product image"
-                                                className="aspect-square rounded-md object-cover"
-                                                height="64"
-                                                src="/placeholder.svg"
-                                                width="64"
-                                            />
-                                        </TableCell>
-                                        <TableCell className="font-medium">
-                                            Laser Lemonade Machine
-                                        </TableCell>
-                                        <TableCell>
-                                            <Badge variant="outline">Draft</Badge>
-                                        </TableCell>
-                                        <TableCell>$499.99</TableCell>
-                                        <TableCell className="hidden md:table-cell">25</TableCell>
-                                        <TableCell className="hidden md:table-cell">
-                                            2023-07-12 10:42 AM
-                                        </TableCell>
-                                        <TableCell>
-                                            <DropdownMenu>
-                                                <DropdownMenuTrigger asChild>
-                                                    <Button
-                                                        aria-haspopup="true"
-                                                        size="icon"
-                                                        variant="ghost"
-                                                    >
-                                                        <MoreHorizontal className="h-4 w-4" />
-                                                        <span className="sr-only">Toggle menu</span>
-                                                    </Button>
-                                                </DropdownMenuTrigger>
-                                                <DropdownMenuContent align="end">
-                                                    <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                                                    <DropdownMenuItem>Edit</DropdownMenuItem>
-                                                    <DropdownMenuItem>Delete</DropdownMenuItem>
-                                                </DropdownMenuContent>
-                                            </DropdownMenu>
-                                        </TableCell>
-                                    </TableRow>
+
+                                    {users?.map((user: User, index: number) => (
+                                        <TableRow key={user.id}>
+                                            {/* <TableCell className="hidden sm:table-cell">
+                                                <img
+                                                    alt="Product image"
+                                                    className="aspect-square rounded-md object-cover"
+                                                    height="64"
+                                                    src="/placeholder.svg"
+                                                    width="64"
+                                                />
+                                            </TableCell> */}
+                                            <TableCell>
+                                                {index + 1}
+                                            </TableCell>
+                                            <TableCell >
+                                                {user.first_name}
+                                            </TableCell>
+                                            <TableCell >
+                                                {user.last_name}
+                                            </TableCell>
+                                            <TableCell >
+                                                {user.email}
+                                            </TableCell>
+                                            <TableCell>
+                                                {user.phone}
+                                            </TableCell>
+                                            <TableCell>{user.address}</TableCell>
+                                            <TableCell className="hidden md:table-cell">{formatDate(user.dob.toString())}</TableCell>
+                                            <TableCell>{formatGender(user.gender)}</TableCell>
+
+                                            <TableCell className="hidden md:table-cell">{formatDate(user?.created_at?.toString() || "")}</TableCell>
+                                            <TableCell className="hidden md:table-cell">{formatDate(user?.updated_at?.toString() || "")}</TableCell>
+
+                                            <TableCell>
+                                                <DropdownMenu>
+                                                    <DropdownMenuTrigger asChild>
+                                                        <Button
+                                                            aria-haspopup="true"
+                                                            size="icon"
+                                                            variant="ghost"
+                                                        >
+                                                            <MoreHorizontal className="h-4 w-4" />
+                                                            <span className="sr-only">Toggle menu</span>
+                                                        </Button>
+                                                    </DropdownMenuTrigger>
+                                                    <DropdownMenuContent align="end">
+                                                        <DropdownMenuLabel>Actions</DropdownMenuLabel>
+                                                        <DropdownMenuItem>Edit</DropdownMenuItem>
+                                                        <DropdownMenuItem>Delete</DropdownMenuItem>
+                                                    </DropdownMenuContent>
+                                                </DropdownMenu>
+                                            </TableCell>
+                                        </TableRow>
+                                    ))}
+
                                 </TableBody>
                             </Table>
                         </CardContent>
