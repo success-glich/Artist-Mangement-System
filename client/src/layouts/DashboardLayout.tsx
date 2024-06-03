@@ -22,9 +22,13 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import useTokenStore from "@/store"
 
 function DashboardLayout() {
-    const { token } = useTokenStore();
+    const { token, setToken } = useTokenStore();
     if (!token) {
         return <Navigate to="/auth/login" />
+    }
+
+    const handleLogout = () => {
+        setToken("");
     }
     return (
         <div className="grid min-h-screen w-full md:grid-cols-[220px_1fr] lg:grid-cols-[280px_1fr]">
@@ -146,7 +150,7 @@ function DashboardLayout() {
                             <DropdownMenuItem>Settings</DropdownMenuItem>
                             <DropdownMenuItem>Support</DropdownMenuItem>
                             <DropdownMenuSeparator />
-                            <DropdownMenuItem className="cursor-pointer">Logout</DropdownMenuItem>
+                            <DropdownMenuItem className="cursor-pointer" onClick={handleLogout}>Logout</DropdownMenuItem>
                         </DropdownMenuContent>
                     </DropdownMenu>
                 </header>
