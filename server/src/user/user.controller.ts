@@ -72,6 +72,17 @@ const UserController = {
       next(error);
     }
   },
+  getUser:async (req:Request,res:Response,next:NextFunction)=>{
+    try{
+      const id = Number(req.params.id);
+      const user = await userServices.getUserById(id);
+      return res.status(200).json(new ApiResponse(200,user,"User fetched successfully!"));
+    }catch(err:any){
+      console.log("Error while fetching user:",err);
+      const error = createHttpError(400,err.message);
+      next(error);
+    }
+  },
   deleteUser: async (req: Request, res: Response, next: NextFunction) => {
     try {
       const id = Number(req.params.id);

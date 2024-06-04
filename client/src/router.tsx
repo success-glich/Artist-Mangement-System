@@ -11,7 +11,8 @@ import DashboardLayout from "./layouts/DashboardLayout";
 import HomePage from "./pages/HomePage";
 import UserPage from "./pages/users/UserPage";
 import ArtistPage from "./pages/ArtistPage";
-import CreateBook from "./pages/users/CreateUser";
+import CreateUser from "./pages/users/CreateUser";
+import EditUserPage from "./pages/users/EditUser";
 
 const router = createBrowserRouter([
 
@@ -51,7 +52,11 @@ const router = createBrowserRouter([
       },
       {
         path: "users/create",
-        element: <CreateBook />
+        element: <CreateUser />
+      },
+      {
+        path: "users/edit/:userId",
+        element: <EditUserPage />
       },
       {
         path: "artists",

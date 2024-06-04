@@ -14,7 +14,8 @@ userRouter
 
 userRouter
   .route("/:id")
-   .put(validateUserUpdate,UserController.updateUser)
+  .get(UserController.getUser)
+  .put(validateUserUpdate,UserController.updateUser)
   .delete(UserController.deleteUser);
 
 
