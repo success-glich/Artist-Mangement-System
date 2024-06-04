@@ -9,8 +9,9 @@ import RegisterPage from "./pages/RegisterPage";
 
 import DashboardLayout from "./layouts/DashboardLayout";
 import HomePage from "./pages/HomePage";
-import UserPage from "./pages/UserPage";
+import UserPage from "./pages/users/UserPage";
 import ArtistPage from "./pages/ArtistPage";
+import CreateBook from "./pages/users/CreateUser";
 
 const router = createBrowserRouter([
 
@@ -49,10 +50,15 @@ const router = createBrowserRouter([
 
       },
       {
+        path: "users/create",
+        element: <CreateBook />
+      },
+      {
         path: "artists",
         element: <ArtistPage />
 
-      }
+      },
+
     ]
 
   }

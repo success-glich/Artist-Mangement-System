@@ -23,8 +23,12 @@ export const login = (data:{username:string,password:string})=>
 
 export const register = (data:{name:string,username:string,password:string})=>
     api.post("/auth/register", data);
+
 export const getUsers = async (page:number=1,limit:number=5) => {
-
-
   return  (await api.get(`/users/?page=${page}&limit=${limit}`)).data;
+}
+
+
+export const createUser = async (data:FormData)=>{
+    return api.post("/users", data);
 }

@@ -46,6 +46,7 @@ import { User } from "@/types";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import { File, ListFilter, MoreHorizontal, PlusCircle } from "lucide-react";
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
 const UserPage = () => {
 
@@ -54,7 +55,6 @@ const UserPage = () => {
         useQuery({
             queryKey: ["users", page],
             queryFn: () => getUsers(page, 1),
-            // staleTime: 6 * 1000// in milliseconds
             placeholderData: keepPreviousData,
         });
 
@@ -107,12 +107,14 @@ const UserPage = () => {
                                 Export
                             </span>
                         </Button>
-                        <Button size="sm" className="h-7 gap-1">
-                            <PlusCircle className="h-3.5 w-3.5" />
-                            <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
-                                Add User
-                            </span>
-                        </Button>
+                        <Link to="/dashboard/users/create">
+                            <Button size="sm" className="h-7 gap-1" >
+                                <PlusCircle className="h-3.5 w-3.5" />
+                                <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
+                                    Add User
+                                </span>
+                            </Button>
+                        </Link>
                     </div>
                 </div>
                 <section>
