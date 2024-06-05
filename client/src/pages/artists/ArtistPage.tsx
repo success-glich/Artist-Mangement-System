@@ -137,8 +137,8 @@ function ArtistPage() {
                                         <TableHead>Gender</TableHead>
                                         <TableHead>Address</TableHead>
 
-                                        <TableHead>Email</TableHead>
-                                        <TableHead>Phone</TableHead>
+                                        <TableHead>First Release Year</TableHead>
+                                        <TableHead>Number of Album</TableHead>
                                         <TableHead className="hidden md:table-cell">
                                             Date of birth
                                         </TableHead>
