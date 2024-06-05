@@ -41,12 +41,12 @@ import {
 import { getUsers } from "@/http/api";
 import { formatDate } from "@/lib/utils/formatDate";
 import { formatGender } from "@/lib/utils/formatGender";
-import { User } from "@/types";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import { Edit2, File, ListFilter, PlusCircle } from "lucide-react";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import UserDeleteBtn from "./components/UserDeleteBtn";
+import { User } from "@/types/types";
 
 const UserPage = () => {
 
@@ -71,8 +71,6 @@ const UserPage = () => {
 
     return (
         <>
-
-
             <div>
                 <div className="flex items-center">
                     <Breadcrumb>
@@ -151,13 +149,6 @@ const UserPage = () => {
                                         <TableHead className="hidden md:table-cell">
                                             Updated at
                                         </TableHead>
-                                        {/* <TableHead>
-                                            <span className="sr-only">Actions</span>
-                                        </TableHead>
-                                        <TableHead>
-                                            <span className="sr-only">Actions</span>
-                                        </TableHead> */}
-
                                         <TableHead>
                                             Action
                                         </TableHead>

@@ -33,7 +33,7 @@ interface ArtistFormProps {
     onSubmit: (values: z.infer<typeof artistSchema>) => void;
 }
 
-function ArtistFrom({ isPending, defaultValues, onSubmit }: ArtistFormProps) {
+function ArtistForm({ isPending, defaultValues, onSubmit }: ArtistFormProps) {
     const form = useForm<z.infer<typeof artistSchema>>({
         resolver: zodResolver(artistSchema),
         defaultValues: defaultValues,
@@ -72,7 +72,7 @@ function ArtistFrom({ isPending, defaultValues, onSubmit }: ArtistFormProps) {
                                             <Input
                                                 type="text"
                                                 className="w-full"
-                                                placeholder="eg. doe"
+                                                placeholder="eg. lalitpur"
                                                 {...field}
                                             />
                                         </FormControl>
@@ -174,4 +174,4 @@ function ArtistFrom({ isPending, defaultValues, onSubmit }: ArtistFormProps) {
     );
 }
 
-export default ArtistFrom;
+export default ArtistForm;

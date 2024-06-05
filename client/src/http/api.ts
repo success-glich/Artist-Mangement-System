@@ -47,9 +47,16 @@ export const deleteUser = async (id:number)=>{
 export const getArtists = async (page:number=1, limit:number=5) => {
   return  (await api.get(`/artists/?page=${page}&limit=${limit}`)).data;
 } 
+export const getArtist =async (artistId:number) => {
+    return   api.get(`/artists/${artistId}`);
+  }
 export const createArtist = async (data:FormData)=>{
     return api.post("/artists", data);
 }
-export const deleteArtist = async (id:number)=>{
-    return api.delete(`/artists/${id}`);
+export const deleteArtist = async (artistId:number)=>{
+    return api.delete(`/artists/${artistId}`);
+}
+
+export const updateArtist = async ({id,data}:{id:number,data:FormData})=>{
+    return api.put(`/artists/${id}`, data);
 }

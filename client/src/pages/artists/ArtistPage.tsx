@@ -174,7 +174,7 @@ function ArtistPage() {
                                             <TableCell>{artist.address}</TableCell>
                                             <TableCell>{artist.first_release_year}</TableCell>
                                             <TableCell>{artist.no_of_albums_released}</TableCell>
-                                            <TableCell>{artist.address}</TableCell>
+                                            {/* <TableCell>{artist.address}</TableCell> */}
                                             <TableCell className="hidden md:table-cell">
                                                 {formatDate(artist?.dob.toString())}
                                             </TableCell>

@@ -14,6 +14,7 @@ import ArtistPage from "./pages/artists/ArtistPage";
 import CreateUser from "./pages/users/CreateUser";
 import EditUserPage from "./pages/users/EditUser";
 import CreateArtist from "./pages/artists/CreateArtist";
+import EditArtistPage from "./pages/artists/EditArtist";
 
 const router = createBrowserRouter([
 
@@ -67,6 +68,10 @@ const router = createBrowserRouter([
       {
         path: "artists/create",
         element: <CreateArtist />
+      },
+      {
+        path: "artists/edit/:artistId",
+        element: <EditArtistPage />
       },
 
     ]

@@ -1,77 +1,80 @@
-import UserForm from "@/components/common/UserForm";
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from "@/components/ui/breadcrumb";
 import { Card, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { useToast } from "@/components/ui/use-toast";
-import { getUser, updateUser } from "@/http/api";
-import { formatDate } from "@/lib/utils/formatDate";
-import { userSchema } from "@/schema/user.schema";
-import { User } from "@/types/types";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { getArtist, updateArtist } from "@/http/api";
+import { artistSchema } from "@/schema/artist.schema";
+import { Artist } from "@/types/types";
 import { useNavigate, useParams } from "react-router-dom";
+
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { z } from "zod";
+import ArtistForm from "./components/ArtistForm";
+import { formatDate } from "@/lib/utils/formatDate";
 
 
 
-function EditUserPage() {
+function EditArtistPage() {
+
+    const params = useParams();
+    const { artistId } = params;
 
 
-    const { userId } = useParams();
     const navigate = useNavigate();
-
     const {
         isLoading,
         isError,
         data: response,
         error,
     } = useQuery({
-        queryKey: ["users", userId],
-        queryFn: () => getUser(Number(userId)),
+        queryKey: ["artists", artistId],
+        queryFn: () => getArtist(Number(artistId)),
     });
-    const user: User = response?.data.data;
+    const artist: Artist = response?.data.data;
 
+    console.log("artist", artist);
 
     const { toast } = useToast();
 
     const queryClient = useQueryClient();
 
     const mutation = useMutation({
-        mutationFn: updateUser,
+        mutationFn: updateArtist,
         onSuccess: (res) => {
             queryClient.invalidateQueries({ queryKey: ['users'] });
             toast({
                 variant: "success",
                 title: res.data.message,
             })
-            console.log('User created successfully');
-            navigate('/dashboard/users');
+            console.log('Agent updated successfully');
+            navigate('/dashboard/artists');
         },
     });
 
-    function onSubmit(values: z.infer<typeof userSchema>) {
+    function onSubmit(values: z.infer<typeof artistSchema>) {
         // ✅ This will be type-safe and validated.
         const formData = new FormData();
-        formData.append('first_name', values.first_name);
-        formData.append('last_name', values.last_name);
-        formData.append('email', values.email);
-        formData.append('dob', values.dob);
-        formData.append('gender', values.gender);
-        formData.append('address', values?.address || "");
-        formData.append('password', values.password);
-        formData.append('phone', values.phone);
-        mutation.mutate({ id: Number(userId), data: formData });
+        formData.append("name", values.name);
+        formData.append("dob", values.dob);
+        formData.append("gender", values.gender);
+        formData.append("address", values?.address || "");
+        formData.append("first_release_year", values.first_release_year);
+        formData.append("no_of_albums_released", values.no_of_albums_released);
+
+        mutation.mutate({ id: Number(artistId), data: formData });
+
+
         console.log(values);
     }
 
-    const defaultValues = {
-        first_name: user?.first_name,
-        last_name: user?.last_name,
-        email: user?.email,
-        dob: formatDate(user?.dob),
-        password: "",
-        phone: user?.phone,
-        gender: user?.gender,
-        address: user?.address
-    }
+
+    const defaultValues: z.infer<typeof artistSchema> = {
+        name: artist?.name,
+        gender: artist?.gender,
+        address: artist?.address,
+        dob: formatDate(artist?.dob),
+        first_release_year: String(artist?.first_release_year),
+        no_of_albums_released: String(artist?.no_of_albums_released)
+    };
     if (isLoading) {
         return <div>loading...</div>;
     } else if (isError) {
@@ -87,7 +90,7 @@ function EditUserPage() {
                         </BreadcrumbItem>
                         <BreadcrumbSeparator />
                         <BreadcrumbItem>
-                            <BreadcrumbLink href="/dashboard/users">Users</BreadcrumbLink>
+                            <BreadcrumbLink href="/dashboard/artists">Artists</BreadcrumbLink>
                         </BreadcrumbItem>
                         <BreadcrumbSeparator />
                         <BreadcrumbItem>
@@ -98,19 +101,20 @@ function EditUserPage() {
             </div>
             <Card className="mt-6">
                 <CardHeader>
-                    <CardTitle>Update a users</CardTitle>
+                    <CardTitle>Update a artist</CardTitle>
                     <CardDescription>
-                        Fill out the form below to update a user.
+                        Fill out the form below to update a  artist.
                         <br />
                         {mutation.isError && <div className='text-red-500'>Something went wrong</div>}
                     </CardDescription>
                 </CardHeader>
 
-                <UserForm isPending={mutation.isPending} defaultValues={defaultValues} onSubmit={onSubmit} />
+
+                <ArtistForm isPending={mutation.isPending} defaultValues={defaultValues} onSubmit={onSubmit} />
             </Card>
 
         </section >
     )
 }
 
-export default EditUserPage;
+export default EditArtistPage;
