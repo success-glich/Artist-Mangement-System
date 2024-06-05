@@ -19,7 +19,6 @@ import {
     DropdownMenu,
     DropdownMenuCheckboxItem,
     DropdownMenuContent,
-    DropdownMenuItem,
     DropdownMenuLabel,
     DropdownMenuSeparator,
     DropdownMenuTrigger,
@@ -44,13 +43,16 @@ import { formatDate } from "@/lib/utils/formatDate";
 import { formatGender } from "@/lib/utils/formatGender";
 import { User } from "@/types";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
-import { File, ListFilter, MoreHorizontal, PlusCircle } from "lucide-react";
+import { Edit2, File, ListFilter, PlusCircle } from "lucide-react";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import UserDeleteBtn from "./components/UserDeleteBtn";
 
 const UserPage = () => {
 
     const [page, setPage] = useState(1);
+    const navigate = useNavigate();
+
     const { isPending, isError, error, data, isFetching, isPlaceholderData } =
         useQuery({
             queryKey: ["users", page],
@@ -61,7 +63,7 @@ const UserPage = () => {
     const users = data?.data.users || [];
     const total = data?.data.total || 0;
     const totalPages = Math.ceil(total / limit);
-    const navigate = useNavigate();
+
 
     if (isError) {
         return <div>Error: {error.message}</div>;
@@ -69,6 +71,8 @@ const UserPage = () => {
 
     return (
         <>
+
+
             <div>
                 <div className="flex items-center">
                     <Breadcrumb>
@@ -147,8 +151,15 @@ const UserPage = () => {
                                         <TableHead className="hidden md:table-cell">
                                             Updated at
                                         </TableHead>
+                                        {/* <TableHead>
+                                            <span className="sr-only">Actions</span>
+                                        </TableHead>
                                         <TableHead>
                                             <span className="sr-only">Actions</span>
+                                        </TableHead> */}
+
+                                        <TableHead>
+                                            Action
                                         </TableHead>
                                     </TableRow>
                                 </TableHeader>
@@ -181,8 +192,8 @@ const UserPage = () => {
                                                 {formatDate(user?.updated_at?.toString() || "")}
                                             </TableCell>
 
-                                            <TableCell>
-                                                <DropdownMenu>
+                                            <TableCell className="flex gap-2 items-center">
+                                                {/* <DropdownMenu>
                                                     <DropdownMenuTrigger asChild>
                                                         <Button
                                                             aria-haspopup="true"
@@ -195,10 +206,20 @@ const UserPage = () => {
                                                     </DropdownMenuTrigger>
                                                     <DropdownMenuContent align="end">
                                                         <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                                                        <DropdownMenuItem onClick={() => navigate(`edit/${user.id}`)}>Edit</DropdownMenuItem>
-                                                        <DropdownMenuItem>Delete</DropdownMenuItem>
+                                                        <DropdownMenuItem onClick={() => navigate(`edit/${user.id}`)} className="flex items-center"><Edit2
+                                                            size={20}
+                                                            className="text-blue-500 hover:scale-125 cursor-pointer transition-all"
+                                                        /> </DropdownMenuItem>
+
                                                     </DropdownMenuContent>
-                                                </DropdownMenu>
+
+
+                                                </DropdownMenu> */}
+                                                <div onClick={() => navigate(`edit/${user.id}`)} className="flex items-center"><Edit2
+                                                    size={20}
+                                                    className="text-blue-500 hover:scale-125 cursor-pointer transition-all"
+                                                /> </div>
+                                                <UserDeleteBtn id={user.id} />
                                             </TableCell>
                                         </TableRow>
                                     ))}
@@ -243,6 +264,6 @@ const UserPage = () => {
             </div>
         </>
     );
-};
+}
 
 export default UserPage;

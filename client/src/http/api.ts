@@ -38,3 +38,6 @@ export const createUser = async (data:FormData)=>{
 export const updateUser = async ({id,data}:{id:number,data:FormData})=>{
     return api.put(`/users/${id}`, data);
 }
+export const deleteUser = async (id:number)=>{
+    return api.delete(`/users/${id}`);
+}

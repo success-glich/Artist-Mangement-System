@@ -88,12 +88,9 @@ const UserController = {
       const id = Number(req.params.id);
 
       // * business logic
-      const rows = await userServices.deleteUserById(id);
+      await userServices.deleteUserById(id);
 
-      if (rows.length < 1) {
-        throw new Error("User not found");
-      }
-      return res
+         return res
         .status(201)
         .json(new ApiResponse(200, "User data deleted successfully!"));
     } catch (err: any) {
