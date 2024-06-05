@@ -46,13 +46,14 @@ const ArtistController = {
         : 10;
 
       // * business logic
-      const users = await artistServices.getArtists(page, limit);
+      const {artists,totalArtists} = await artistServices.getArtists(page, limit);
+      
       return res
         .status(201)
         .json(
           new ApiResponse(
             200,
-            { currentPage: page, total: users.length, users },
+            { currentPage: page, total: totalArtists, artists },
             "Artist fetched Successfully1!"
           )
         );

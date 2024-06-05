@@ -39,11 +39,18 @@ class ArtistServices {
 
     try {
       const res = await client.query(
-        'SELECT * FROM "artists" LIMIT $1 OFFSET $2',
+        'SELECT * FROM "artist" LIMIT $1 OFFSET $2',
         [limit, offset]
       );
 
-      return res.rows;
+      const totalArtists = await client.query('SELECT COUNT(*) FROM "artist"');
+
+      return{
+         artists:res.rows,
+         totalArtists:Number(totalArtists.rows[0].count)
+      };
+      
+
     } catch (err: any) {
       throw new Error(err);
     } finally {
