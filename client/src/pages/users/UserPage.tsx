@@ -46,7 +46,7 @@ import { User } from "@/types";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import { File, ListFilter, MoreHorizontal, PlusCircle } from "lucide-react";
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const UserPage = () => {
 
@@ -54,12 +54,14 @@ const UserPage = () => {
     const { isPending, isError, error, data, isFetching, isPlaceholderData } =
         useQuery({
             queryKey: ["users", page],
-            queryFn: () => getUsers(page, 1),
+            queryFn: () => getUsers(page),
             placeholderData: keepPreviousData,
         });
-
+    const limit = 5;
     const users = data?.data.users || [];
-    const totalPages = data?.data.total;
+    const total = data?.data.total || 0;
+    const totalPages = Math.ceil(total / limit);
+    const navigate = useNavigate();
 
     if (isError) {
         return <div>Error: {error.message}</div>;
@@ -193,7 +195,7 @@ const UserPage = () => {
                                                     </DropdownMenuTrigger>
                                                     <DropdownMenuContent align="end">
                                                         <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                                                        <DropdownMenuItem>Edit</DropdownMenuItem>
+                                                        <DropdownMenuItem onClick={() => navigate(`edit/${user.id}`)}>Edit</DropdownMenuItem>
                                                         <DropdownMenuItem>Delete</DropdownMenuItem>
                                                     </DropdownMenuContent>
                                                 </DropdownMenu>

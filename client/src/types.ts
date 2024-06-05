@@ -7,8 +7,8 @@ export interface User  {
     email: string,
     password: string,
     phone: string,
-    dob: Date,
-    gender: string,
+    dob: string,
+    gender: "m" | "f"| "o",
     address: string,
     created_at?: Date,
     updated_at?: Date
