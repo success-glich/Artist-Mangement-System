@@ -41,7 +41,7 @@ const createTables = async () => {
         updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
       );
     `);
-
+``
         await pool.query(`
       CREATE TABLE IF NOT EXISTS music (
         id SERIAL PRIMARY KEY,

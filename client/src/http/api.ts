@@ -50,3 +50,6 @@ export const getArtists = async (page:number=1, limit:number=5) => {
 export const createArtist = async (data:FormData)=>{
     return api.post("/artists", data);
 }
+export const deleteArtist = async (id:number)=>{
+    return api.delete(`/artists/${id}`);
+}

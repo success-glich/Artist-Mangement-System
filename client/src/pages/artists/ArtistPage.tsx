@@ -46,6 +46,7 @@ import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import { Edit2, File, ListFilter, PlusCircle } from "lucide-react";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import ArtistDeleteBtn from "./components/ArtistDeleteBtn";
 
 function ArtistPage() {
 
@@ -193,7 +194,8 @@ function ArtistPage() {
                                                 /> </div>
                                                 {/* <UserDeleteBtn id={user.id} />
                                                  */}
-                                                delete
+
+                                                <ArtistDeleteBtn id={artist.id} />
                                             </TableCell>
                                         </TableRow>
                                     ))}

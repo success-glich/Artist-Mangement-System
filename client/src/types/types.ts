@@ -14,7 +14,7 @@ export interface User  {
 }
 
 export interface Artist {
-    id?: number;
+    id: number;
     name: string;
     dob: Date;
     gender: "m" | "f" | "o";
