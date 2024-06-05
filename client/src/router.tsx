@@ -10,7 +10,7 @@ import RegisterPage from "./pages/RegisterPage";
 import DashboardLayout from "./layouts/DashboardLayout";
 import HomePage from "./pages/HomePage";
 import UserPage from "./pages/users/UserPage";
-import ArtistPage from "./pages/ArtistPage";
+import ArtistPage from "./pages/artists/ArtistPage";
 import CreateUser from "./pages/users/CreateUser";
 import EditUserPage from "./pages/users/EditUser";
 

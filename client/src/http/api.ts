@@ -41,3 +41,9 @@ export const updateUser = async ({id,data}:{id:number,data:FormData})=>{
 export const deleteUser = async (id:number)=>{
     return api.delete(`/users/${id}`);
 }
+
+// * Artist api
+
+export const getArtists = async (page:number=1, limit:number=5) => {
+  return  (await api.get(`/artists/?page=${page}&limit=${limit}`)).data;
+} 
