@@ -1,4 +1,4 @@
-import { Link, Navigate, Outlet } from "react-router-dom"
+import { Link, Navigate, NavLink, Outlet } from "react-router-dom"
 import {
     Bell,
     CircleUser,
@@ -46,28 +46,28 @@ function DashboardLayout() {
                     </div>
                     <div className="flex-1">
                         <nav className="grid items-start px-2 text-sm font-medium lg:px-4">
-                            <Link
+                            <NavLink
                                 to="/dashboard/home"
-                                className="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary"
+                                className={({ isActive }) => `flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground ${isActive && " bg-muted text-primary"} transition-all hover:text-primary`}
                             >
                                 <Home className="h-4 w-4" />
                                 Dashboard
-                            </Link>
-                            <Link
+                            </NavLink>
+                            <NavLink
                                 to="/dashboard/users"
-                                className="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary"
+                                className={({ isActive }) => `flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground ${isActive && " bg-muted text-primary"} transition-all hover:text-primary`}
                             >
                                 <User className="h-4 w-4" />
                                 Users
 
-                            </Link>
-                            <Link
+                            </NavLink>
+                            <NavLink
                                 to="/dashboard/artists"
-                                className="flex items-center gap-3 rounded-lg bg-muted px-3 py-2 text-primary transition-all hover:text-primary"
+                                className={({ isActive }) => `flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground ${isActive && " bg-muted text-primary"} transition-all hover:text-primary`}
                             >
                                 <Vibrate className="h-4 w-4" />
                                 Artists
-                            </Link>
+                            </NavLink>
 
                         </nav>
                     </div>
