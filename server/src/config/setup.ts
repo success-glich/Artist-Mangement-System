@@ -45,12 +45,15 @@ const createTables = async () => {
         await pool.query(`
       CREATE TABLE IF NOT EXISTS music (
         id SERIAL PRIMARY KEY,
-        artist_id INT REFERENCES artist(id),
+        artist_id INT REFERENCES artist(id) ON DELETE CASCADE,
         title VARCHAR(255),
         album_name VARCHAR(255),
         genre VARCHAR(10) CHECK (genre IN ('rnb', 'country', 'classic', 'rock', 'jazz')),
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-        updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        CONSTRAINT fk_music_artist FOREIGN KEY (artist_id)
+        REFERENCES artist(id)
+        ON DELETE CASCADE
       );
     `);
 
