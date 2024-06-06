@@ -82,50 +82,13 @@ class MusicService {
     }
   }
 
-  async updateMusicByArtistId({
-  id,
-  title,
-  album_name,
-  artist_id,
-  genre,
-}: Music) {
-  const client = await this.pool.connect();
 
-  try {
-    const query = `
-    UPDATE "music"
-    SET 
-    title = $1,
-    album_name = $2,
-    genre = $3
-    WHERE id = $4 and artist_id=$5`;
-    console.log(query);
-    const values = [
-      title,
-      album_name,
-      genre,
-      id,
-      artist_id
-    ];
-
-    const res = await client.query(query, values);
-
-    if (res.rowCount === 0)
-      throw new Error("Something wrong when updating musics");
-    return;
-  } catch (err: any) {
-    throw new Error(err);
-  } finally {
-    client.release();
-  }
-}
-  async deleteMusicById(id: number,artist_id:number) {
+  async deleteMusicById(id: number) {
 
     const client = await this.pool.connect();
     try {
-      const res = await client.query('DELETE FROM "music" WHERE id = $1 and artist_id=$2', [
+      const res = await client.query('DELETE FROM "music" WHERE id = $1', [
         id,
-        artist_id
       ]);
       return res.rows;
     } catch (err: any) {

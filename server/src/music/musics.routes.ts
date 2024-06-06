@@ -17,7 +17,7 @@ musicRouter
   .get(MusicController.getMusicsByArtistId);
 
 musicRouter
-  .route("/:artistId/:id")
+  .route("/:id")
    .put(validateMusic,MusicController.updateMusic)
   .delete(MusicController.deleteMusics);
 

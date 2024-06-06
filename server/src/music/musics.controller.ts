@@ -61,21 +61,20 @@ const MusicController = {
   deleteMusics: async (req: Request, res: Response, next: NextFunction) => {
     try {
       const id = Number(req.params.id);
-      const artist_id = Number(req.params.artistId);
       const existingMusic = await musicServices.getMusicById(id);
       if (!existingMusic) {
          return next(createHttpError(404, "Musics not found") );
       } 
         
-      const rows = await musicServices.deleteMusicById(id,artist_id);
+      const rows = await musicServices.deleteMusicById(id,);
       if (!rows) {
         next(createHttpError(404,"music not found"))
       }
         return res
         .status(200)
-        .json(new ApiResponse(200, null, "Artist deleted successfully!"));
+        .json(new ApiResponse(200, null, "Musics deleted successfully!"));
     } catch (err: any) {
-      console.log("Error while deleting artists:", err);
+      console.log("Error while deleting musics:", err);
       const error = createHttpError(500, err.message);
       next(error);
     }
@@ -83,7 +82,6 @@ const MusicController = {
   updateMusic: async (req: Request, res: Response, next: NextFunction) => {
     try {
       const id = Number(req.params.id);
-      const artist_id=Number(req.params.artistId);
       const {
         genre,
         title,
@@ -95,7 +93,7 @@ const MusicController = {
          return next(createHttpError(404, "Musics not found") );
       } 
      
-      await musicServices.updateMusicByArtistId({id,genre,title,album_name,artist_id});
+      await musicServices.updateMusicById({id,genre,title,album_name});
   
 
       return res
