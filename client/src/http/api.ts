@@ -72,3 +72,7 @@ export const getMusics = async ({page=1,limit=5,artistId}:{page?:number,limit?:n
   export const  createMusic = async(data:FormData)=>{
         return api.post(`/musics`, data);
   }
+
+  export const deleteMusic = async (musicId:number)=>{
+    return api.delete(`/musics/${musicId}`);
+}
