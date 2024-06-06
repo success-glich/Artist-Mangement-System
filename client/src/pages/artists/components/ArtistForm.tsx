@@ -43,7 +43,7 @@ function ArtistForm({ isPending, defaultValues, onSubmit }: ArtistFormProps) {
             <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)}>
                     <CardContent>
-                        <div className="grid grid-cols-2 gap-6">
+                        <div className="grid md:grid-cols-2 gap-6">
                             <FormField
                                 control={form.control}
                                 name="name"

@@ -64,7 +64,7 @@ function UserForm({ isPending, defaultValues, onSubmit }: UserFormProps) {
             <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)}>
                     <CardContent>
-                        <div className="grid grid-cols-2 gap-6">
+                        <div className="grid md:grid-cols-2 gap-6">
                             <FormField
                                 control={form.control}
                                 name="first_name"

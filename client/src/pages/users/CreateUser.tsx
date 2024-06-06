@@ -20,7 +20,7 @@ import { LoaderCircle } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import { createUser } from "@/http/api";
 import { useToast } from "@/components/ui/use-toast";
-import UserForm from "@/components/common/UserForm";
+import UserForm from "@/pages/users/components/UserForm";
 import { userSchema } from "@/schema/user.schema";
 
 const defaultValues: z.infer<typeof userSchema> = {
