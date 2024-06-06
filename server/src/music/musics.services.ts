@@ -113,5 +113,17 @@ class MusicService {
       client.release();
     }
   }
+  async getMusicCount(){
+
+    const client = await this.pool.connect();
+    try {
+      const res = await client.query('SELECT COUNT(*) FROM "music"');
+      return res.rows[0].count;
+    } catch (err: any) {
+      throw new Error(err);
+    } finally {
+      client.release();
+    }
+  }
 }
 export default MusicService;

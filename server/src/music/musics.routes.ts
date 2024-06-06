@@ -11,7 +11,10 @@ musicRouter
   .route("/")
   .get(MusicController.getMusics)
   .post(validateMusic, MusicController.createMusic);
-  
+
+musicRouter
+.route("/count")
+.get(MusicController.getMusicCount)
 musicRouter
 .route("/info/:id")
 .get(MusicController.getMusic)

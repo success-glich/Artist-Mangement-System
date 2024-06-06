@@ -146,6 +146,18 @@ const MusicController = {
       next(error);
     }
   },
+  getMusicCount:async (req:Request,res:Response,next:NextFunction)=>{
+    try {
+      const count = await musicServices.getMusicCount();
+      return res
+        .status(200)
+        .json(new ApiResponse(200, count, "Music count fetched successfully!"));
+    } catch (err: any) {
+      console.log("Error while fetching music count:", err);
+      const error = createHttpError(500, err.message);
+      next(error);
+    }
+  }
 };
 
 export default MusicController;
