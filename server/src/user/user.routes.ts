@@ -7,6 +7,7 @@ const userRouter = Router();
 
 userRouter.use(AuthMiddleware.isAuthenticated);
 
+userRouter.get("/count",UserController.getUserCount)
 userRouter
   .route("/")
   .get(UserController.getUsers)

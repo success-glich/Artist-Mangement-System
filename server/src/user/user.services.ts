@@ -166,5 +166,18 @@ class UserServices {
       client.release();
     }
   }
+  async getUserCount(){
+
+    const client = await this.pool.connect();
+    try {
+      const res = await client.query('SELECT COUNT(*) FROM "user"');
+      return res.rows[0];
+    } catch (err: any) {
+      throw new Error(err);
+    } finally {
+      client.release();
+    }
+
+  }
 }
 export default UserServices;

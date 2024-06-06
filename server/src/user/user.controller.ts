@@ -137,6 +137,16 @@ const UserController = {
       next(error);
     }
   },
+  getUserCount :async(req:Request,res:Response,next:NextFunction)=>{
+    try{
+      const count = await userServices.getUserCount();
+      return res.status(200).json(new ApiResponse(200, count, "User count fetched successfully!"));
+    }catch(err:any){
+      console.log("Error while fetching user count:", err);
+      const error = createHttpError(400, err.message);
+      next(error);
+    }
+  }
 };
 
 export default UserController;
