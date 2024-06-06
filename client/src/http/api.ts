@@ -26,6 +26,12 @@ export const register = (data: {
   password: string;
 }) => api.post("/auth/register", data);
 
+// * User's Api
+export const getUsersCount = async () => {
+
+  return api.get("/users/count");
+};
+
 export const getUsers = async (page: number = 1, limit: number = 5) => {
   return (await api.get(`/users/?page=${page}&limit=${limit}`)).data;
 };
@@ -50,8 +56,10 @@ export const deleteUser = async (id: number) => {
   return api.delete(`/users/${id}`);
 };
 
-// * Artist api
-
+// * Artist Api
+export const getArtistsCount = async () => {
+  return api.get("/artists/count");
+};
 export const getArtists = async (page: number = 1, limit: number = 5) => {
   return (await api.get(`/artists/?page=${page}&limit=${limit}`)).data;
 };
@@ -76,6 +84,10 @@ export const updateArtist = async ({
 };
 
 //* songs api
+
+export const getMusicsCount = async () => {
+  return api.get("/artists/count");
+};
 export const getMusics = async ({
   page = 1,
   limit = 5,
