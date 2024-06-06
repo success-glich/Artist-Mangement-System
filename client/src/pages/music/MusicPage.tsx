@@ -53,9 +53,6 @@ const MusicPage = () => {
     const navigate = useNavigate();
 
     const { artistId } = useParams();
-
-
-
     const { isPending, isError, error, data, isFetching, isPlaceholderData } =
         useQuery({
             queryKey: ["musics", page],
@@ -63,8 +60,8 @@ const MusicPage = () => {
             placeholderData: keepPreviousData,
         });
     const limit = 5
-    const musics = data?.data || [];
-    const totalMusic = data?.total || 0;
+    const musics = data?.data?.musics || [];
+    const totalMusic = data?.data.total || 0;
     const totalPages = Math.ceil(totalMusic / limit);
 
     if (isPending) {
@@ -121,7 +118,7 @@ const MusicPage = () => {
                                 Export
                             </span>
                         </Button>
-                        <Link to="/dashboard/users/create">
+                        <Link to={`/dashboard/artists/${artistId}/musics/create`}>
                             <Button size="sm" className="h-7 gap-1" >
                                 <PlusCircle className="h-3.5 w-3.5" />
                                 <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
@@ -144,10 +141,11 @@ const MusicPage = () => {
                                 <TableHeader>
                                     <TableRow>
                                         <TableHead>Sn</TableHead>
-                                        <TableHead>Artist Name</TableHead>
                                         <TableHead>title</TableHead>
                                         <TableHead>album_name</TableHead>
                                         <TableHead>genre</TableHead>
+                                        <TableHead>Artist Name</TableHead>
+
                                         <TableHead className="hidden md:table-cell">
                                             Created at
                                         </TableHead>
@@ -174,10 +172,10 @@ const MusicPage = () => {
                                     </TableRow> : musics?.map((music: Music, index: number) => (
                                         <TableRow key={music.id}>
                                             <TableCell>{index + 1}</TableCell>
-                                            <TableCell>{music.artist_name}</TableCell>
                                             <TableCell>{music.title}</TableCell>
                                             <TableCell>{music.album_name}</TableCell>
                                             <TableCell>{music.genre}</TableCell>
+                                            <TableCell>{music.artist_name}</TableCell>
 
                                             <TableCell className="hidden md:table-cell">
                                                 {formatDate(music?.created_at?.toString() || "")}
@@ -196,6 +194,8 @@ const MusicPage = () => {
                                             </TableCell>
 
                                         </TableRow>
+
+
 
                                     ))}
                                 </TableBody>

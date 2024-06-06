@@ -22,7 +22,11 @@ export interface Artist {
   no_of_albums_released: number;
   created_at?: Date;
   updated_at?: Date;
+
 }
+export const genres = ['rnb', 'country', 'classic', 'rock', 'jazz'] as const;
+
+type Genre = typeof genres[number];
 
 export interface Music {
   id: number;
@@ -30,7 +34,7 @@ export interface Music {
   artist_name: string;
   title: string;
   album_name: string;
-  genre: string;
+  genre: Genre
   created_at?: Date;
   updated_at?: Date;
 }

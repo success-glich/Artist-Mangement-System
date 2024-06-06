@@ -68,3 +68,7 @@ export const updateArtist = async ({id,data}:{id:number,data:FormData})=>{
 export const getMusics = async ({page=1,limit=5,artistId}:{page?:number,limit?:number,artistId:number}) => {
     return  (await api.get(`/musics/${artistId}?page=${page}&limit=${limit}`)).data;
   }
+
+  export const  createMusic = async(data:FormData)=>{
+        return api.post(`/musics`, data);
+  }
