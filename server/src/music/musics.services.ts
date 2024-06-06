@@ -157,9 +157,8 @@ class MusicService {
        query,
         [id,limit,offset]
       );
-
-      console.log("res",res.rows);
-      return res.rows;
+      const totalMusicsRow = await client.query('SELECT COUNT(*) FROM "music" WHERE artist_id = $1', [id]);
+      return {musics:res.rows,totalMusic:totalMusicsRow.rows[0].count};
     } catch (err: any) {
       throw new Error(err);
     } finally {
