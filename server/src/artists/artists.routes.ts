@@ -7,6 +7,7 @@ const artistRouter = Router();
 
 artistRouter.use(AuthMiddleware.isAuthenticated);
 
+artistRouter.get("/count",ArtistController.getArtistCount)
 artistRouter
   .route("/")
   .get(ArtistController.getArtists)

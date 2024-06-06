@@ -135,6 +135,19 @@ const ArtistController = {
       next(error);
     }
   },
+  getArtistCount:async(req:Request, res:Response, next:NextFunction)=>{
+
+    try {
+      const count = await artistServices.getArtistCount();
+      return res
+        .status(200)
+        .json(new ApiResponse(200, count, "Artist count fetched successfully!"));
+    } catch (err: any) {
+      console.log("Error while fetching artist count:", err);
+      const error = createHttpError(500, err.message);
+      next(error);
+    }
+  }
 };
 
 export default ArtistController;
