@@ -74,7 +74,7 @@ function ArtistPage() {
                     <Breadcrumb>
                         <BreadcrumbList>
                             <BreadcrumbItem>
-                                <BreadcrumbLink>
+                                <BreadcrumbLink asChild>
                                     <Link to="/dashboard/home"> Home</Link>
                                 </BreadcrumbLink>
                             </BreadcrumbItem>

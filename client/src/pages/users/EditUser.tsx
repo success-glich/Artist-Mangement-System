@@ -81,11 +81,11 @@ function EditUserPage() {
                 <Breadcrumb>
                     <BreadcrumbList>
                         <BreadcrumbItem>
-                            <BreadcrumbLink><Link to="/dashboard/home">Home</Link></BreadcrumbLink>
+                            <BreadcrumbLink asChild><Link to="/dashboard/home">Home</Link></BreadcrumbLink>
                         </BreadcrumbItem>
                         <BreadcrumbSeparator />
                         <BreadcrumbItem>
-                            <BreadcrumbLink><Link to="/dashboard/users">Users</Link></BreadcrumbLink>
+                            <BreadcrumbLink asChild><Link to="/dashboard/users">Users</Link></BreadcrumbLink>
                         </BreadcrumbItem>
                         <BreadcrumbSeparator />
                         <BreadcrumbItem>

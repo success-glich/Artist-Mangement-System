@@ -80,11 +80,11 @@ const MusicPage = () => {
                     <Breadcrumb>
                         <BreadcrumbList>
                             <BreadcrumbItem>
-                                <BreadcrumbLink href="/dashboard/home">Home</BreadcrumbLink>
+                                <BreadcrumbLink asChild ><Link to="/dashboard/home">Home</Link></BreadcrumbLink>
                             </BreadcrumbItem>
                             <BreadcrumbSeparator />
                             <BreadcrumbItem>
-                                <BreadcrumbLink>
+                                <BreadcrumbLink asChild>
                                     <Link to="/dashboard/artists">Artist</Link>
                                 </BreadcrumbLink>
                             </BreadcrumbItem>
