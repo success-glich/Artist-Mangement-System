@@ -60,3 +60,11 @@ export const deleteArtist = async (artistId:number)=>{
 export const updateArtist = async ({id,data}:{id:number,data:FormData})=>{
     return api.put(`/artists/${id}`, data);
 }
+
+
+//* songs api
+
+
+export const getMusics = async ({page=1,limit=5,artistId}:{page?:number,limit?:number,artistId:number}) => {
+    return  (await api.get(`/musics/${artistId}?page=${page}&limit=${limit}`)).data;
+  }

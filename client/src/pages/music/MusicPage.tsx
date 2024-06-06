@@ -38,32 +38,38 @@ import {
     TableHeader,
     TableRow,
 } from "@/components/ui/table";
-import { getArtists } from "@/http/api";
 import { formatDate } from "@/lib/utils/formatDate";
-import { formatGender } from "@/lib/utils/formatGender";
-import { Artist } from "@/types/types";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import { Edit2, File, ListFilter, PlusCircle } from "lucide-react";
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import ArtistDeleteBtn from "./components/ArtistDeleteBtn";
+import { Link, useNavigate, useParams } from "react-router-dom";
+// import UserDeleteBtn from "./components/UserDeleteBtn";
+import { Music } from "@/types/types";
+import { getMusics } from "@/http/api";
 
-function ArtistPage() {
+const MusicPage = () => {
 
     const [page, setPage] = useState(1);
     const navigate = useNavigate();
 
+    const { artistId } = useParams();
+
+
+
     const { isPending, isError, error, data, isFetching, isPlaceholderData } =
         useQuery({
-            queryKey: ["artists", page],
-            queryFn: () => getArtists(page),
+            queryKey: ["musics", page],
+            queryFn: () => getMusics({ page, artistId: Number(artistId) }),
             placeholderData: keepPreviousData,
         });
-    const limit = 5;
-    const artists = data?.data.artists || [];
-    const total = data?.data.total || 0;
-    const totalPages = Math.ceil(total / limit);
+    const limit = 5
+    const musics = data?.data || [];
+    const totalMusic = data?.total || 0;
+    const totalPages = Math.ceil(totalMusic / limit);
 
+    if (isPending) {
+        return <div>Loading...</div>
+    }
 
     if (isError) {
         return <div>Error: {error.message}</div>;
@@ -80,7 +86,11 @@ function ArtistPage() {
                             </BreadcrumbItem>
                             <BreadcrumbSeparator />
                             <BreadcrumbItem>
-                                <BreadcrumbPage>Artists</BreadcrumbPage>
+                                <BreadcrumbPage><BreadcrumbLink href="/dashboard/artists">Artist</BreadcrumbLink></BreadcrumbPage>
+                            </BreadcrumbItem>
+                            <BreadcrumbSeparator />
+                            <BreadcrumbItem>
+                                <BreadcrumbPage>Musics</BreadcrumbPage>
                             </BreadcrumbItem>
                         </BreadcrumbList>
                     </Breadcrumb>
@@ -111,11 +121,11 @@ function ArtistPage() {
                                 Export
                             </span>
                         </Button>
-                        <Link to="/dashboard/artists/create">
+                        <Link to="/dashboard/users/create">
                             <Button size="sm" className="h-7 gap-1" >
                                 <PlusCircle className="h-3.5 w-3.5" />
                                 <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
-                                    Add Artist
+                                    Add Music
                                 </span>
                             </Button>
                         </Link>
@@ -124,9 +134,9 @@ function ArtistPage() {
                 <section>
                     <Card x-chunk="dashboard-06-chunk-0">
                         <CardHeader>
-                            <CardTitle>Artists</CardTitle>
+                            <CardTitle>Musics</CardTitle>
                             <CardDescription>
-                                Manage your artists and view their interest .
+                                Manage  Musics and view musics .
                             </CardDescription>
                         </CardHeader>
                         <CardContent>
@@ -134,23 +144,16 @@ function ArtistPage() {
                                 <TableHeader>
                                     <TableRow>
                                         <TableHead>Sn</TableHead>
-                                        <TableHead>Name</TableHead>
-                                        <TableHead>Gender</TableHead>
-                                        <TableHead>Address</TableHead>
-
-                                        <TableHead>First Release Year</TableHead>
-                                        <TableHead>Number of Album</TableHead>
-                                        <TableHead className="hidden md:table-cell">
-                                            Date of birth
-                                        </TableHead>
+                                        <TableHead>Artist Name</TableHead>
+                                        <TableHead>title</TableHead>
+                                        <TableHead>album_name</TableHead>
+                                        <TableHead>genre</TableHead>
                                         <TableHead className="hidden md:table-cell">
                                             Created at
                                         </TableHead>
                                         <TableHead className="hidden md:table-cell">
                                             Updated at
                                         </TableHead>
-
-
                                         <TableHead>
                                             Action
                                         </TableHead>
@@ -164,40 +167,36 @@ function ArtistPage() {
                                             </TableCell>
                                         </TableRow>
                                     )}
-
-                                    {artists && artists.length > 0 && artists?.map((artist: Artist, index: number) => (
-
-                                        <TableRow key={artist.id}>
+                                    {musics?.length < 1 ? <TableRow>
+                                        <TableCell colSpan={11} className="text-center">
+                                            Data Not Found
+                                        </TableCell>
+                                    </TableRow> : musics?.map((music: Music, index: number) => (
+                                        <TableRow key={music.id}>
                                             <TableCell>{index + 1}</TableCell>
-                                            <TableCell>{artist.name}</TableCell>
-                                            <TableCell>{formatGender(artist?.gender)}</TableCell>
-                                            <TableCell>{artist.address}</TableCell>
-                                            <TableCell>{artist.first_release_year}</TableCell>
-                                            <TableCell>{artist.no_of_albums_released}</TableCell>
-                                            {/* <TableCell>{artist.address}</TableCell> */}
-                                            <TableCell className="hidden md:table-cell">
-                                                {formatDate(artist?.dob.toString())}
-                                            </TableCell>
+                                            <TableCell>{music.artist_name}</TableCell>
+                                            <TableCell>{music.title}</TableCell>
+                                            <TableCell>{music.album_name}</TableCell>
+                                            <TableCell>{music.genre}</TableCell>
 
                                             <TableCell className="hidden md:table-cell">
-                                                {formatDate(artist?.created_at?.toString() || "")}
+                                                {formatDate(music?.created_at?.toString() || "")}
                                             </TableCell>
                                             <TableCell className="hidden md:table-cell">
-                                                {formatDate(artist?.updated_at?.toString() || "")}
+                                                {formatDate(music?.updated_at?.toString() || "")}
                                             </TableCell>
 
-                                            <TableCell className="flex gap-3 items-center">
+                                            <TableCell className="flex gap-2 items-center">
 
-                                                <div onClick={() => navigate(`edit/${artist.id}`)} className="flex items-center"><Edit2
+                                                <div onClick={() => navigate(`edit/${music.id}`)} className="flex items-center"><Edit2
                                                     size={20}
                                                     className="text-blue-500 hover:scale-125 cursor-pointer transition-all"
                                                 /> </div>
 
-                                                <ArtistDeleteBtn id={artist.id} />
-
-                                                <Button variant="outline" onClick={() => navigate(`${artist.id}/musics`)}>View Songs</Button>
                                             </TableCell>
+
                                         </TableRow>
+
                                     ))}
                                 </TableBody>
                             </Table>
@@ -215,19 +214,17 @@ function ArtistPage() {
                                     </PaginationItem>
                                     <PaginationItem>
                                         <PaginationNext
-                                            className={`${page === totalPages
+                                            className={`${page === totalPages || totalPages < 1
                                                 ? "pointer-events-none opacity-50"
                                                 : ""
                                                 }`}
-                                            onClick={() => {
-                                                console.log(data);
-                                                console.log({ page, totalPages });
+                                            isActive={totalPages > 0 || isPlaceholderData || page === totalPages}
 
-                                                if (!isPlaceholderData && data.data.total !== page) {
+                                            onClick={() => {
+                                                if (!isPlaceholderData && totalPages !== page && totalPages > 0) {
                                                     setPage((old) => old + 1);
                                                 }
                                             }}
-                                            isActive={isPlaceholderData || page === totalPages}
                                         />
                                     </PaginationItem>
                                 </PaginationContent>
@@ -236,9 +233,9 @@ function ArtistPage() {
                         </CardFooter>
                     </Card>
                 </section>
-            </div>
+            </div >
         </>
     );
 }
 
-export default ArtistPage;
+export default MusicPage;

@@ -147,13 +147,18 @@ class MusicService {
       client.release();
     }
   }
-  async getMusicByArtistId(id: number) {
+  async getMusicByArtistId(id: number,page: number = 1, limit: number = 10) {
     const client = await this.pool.connect();
+    const offset = (page - 1) * limit;
     try {
+
+      const query = `SELECT m.id, m.artist_id,a.name artist_name,m.title,m.album_name,m.genre,m.created_at,m.updated_at FROM "music" m INNER JOIN "artist" a ON a.id =m.artist_id WHERE artist_id = $1 LIMIT $2 OFFSET $3`
       const res = await client.query(
-        'SELECT * FROM "music" WHERE artistId = $1',
-        [id]
+       query,
+        [id,limit,offset]
       );
+
+      console.log("res",res.rows);
       return res.rows;
     } catch (err: any) {
       throw new Error(err);

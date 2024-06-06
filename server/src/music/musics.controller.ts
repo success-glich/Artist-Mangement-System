@@ -110,9 +110,14 @@ const MusicController = {
   getMusicsByArtistId: async (req: Request, res: Response, next: NextFunction) => {
     try {
       const id = Number(req.params.artistId);
+      console.log("id",id);
+      const page = req.query.page ? parseInt(req.query.page as string, 10) : 1;
+      const limit = req.query.limit
+        ? parseInt(req.query.limit as string, 10)
+        : 10;
 
       // * business logic
-      const music = await musicServices.getMusicByArtistId(id);
+      const music = await musicServices.getMusicByArtistId(id,page,limit);
       return res
         .status(200)
         .json(new ApiResponse(200, music, "Music fetched successfully!"));
