@@ -86,7 +86,7 @@ export const updateArtist = async ({
 //* songs api
 
 export const getMusicsCount = async () => {
-  return api.get("/artists/count");
+  return api.get("/musics/count");
 };
 export const getMusics = async ({
   page = 1,

@@ -1,20 +1,8 @@
 import { Card } from "@/components/ui/card"
-import { getArtistsCount, getUsersCount } from "@/http/api";
+import { getArtistsCount, getMusicsCount, getUsersCount } from "@/http/api";
 import { useQuery } from "@tanstack/react-query";
 
 export default function HomePage() {
-
-    // const { data: usersCount, isLoading: usersLoading, error: usersError } = useQuery('usersCount', getUsersCount);
-    // const { data: musicsCount, isLoading: musicsLoading, error: musicsError } = useQuery('musicsCount', getMusicsCount);
-    // const { data: artistsCount, isLoading: artistsLoading, error: artistsError } = useQuery('artistsCount', getArtistsCount);
-
-    // if (usersLoading || musicsLoading || artistsLoading) {
-    //     return <div>Loading...</div>;
-    // }
-
-    // if (usersError || musicsError || artistsError) {
-    //     return <div>Error fetching data</div>;
-    // }
 
     const {
         isLoading: usersLoading,
@@ -40,7 +28,7 @@ export default function HomePage() {
 
     } = useQuery({
         queryKey: ["musicsCount"],
-        queryFn: getArtistsCount,
+        queryFn: getMusicsCount,
     });
 
 
