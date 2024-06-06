@@ -47,6 +47,7 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import { Music } from "@/types/types";
 import { getMusics } from "@/http/api";
 import MusicDeleteBtn from "./components/MusicDeleteBtn";
+import { capitalizeFirstLetter } from "@/lib/utils/capitalizeFirstLetter";
 
 const MusicPage = () => {
 
@@ -175,7 +176,7 @@ const MusicPage = () => {
                                             <TableCell>{index + 1}</TableCell>
                                             <TableCell>{music.title}</TableCell>
                                             <TableCell>{music.album_name}</TableCell>
-                                            <TableCell>{music.genre}</TableCell>
+                                            <TableCell>{capitalizeFirstLetter(music.genre)}</TableCell>
                                             <TableCell>{music.artist_name}</TableCell>
 
                                             <TableCell className="hidden md:table-cell">
@@ -187,7 +188,7 @@ const MusicPage = () => {
 
                                             <TableCell className="flex gap-2 items-center">
 
-                                                <div onClick={() => navigate(`edit/${music.id}`)} className="flex items-center"><Edit2
+                                                <div onClick={() => navigate(`/dashboard/musics/edit/${music.id}`)} className="flex items-center"><Edit2
                                                     size={20}
                                                     className="text-blue-500 hover:scale-125 cursor-pointer transition-all"
                                                 /> </div>

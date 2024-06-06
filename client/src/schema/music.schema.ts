@@ -9,6 +9,6 @@ export const musicSchema = z.object({
         message: 'album_name must be at least 4 characters.',
     }),
     genre:z.enum(genres,{message:"Genre is required"} ),
-    artist_id: z.string()
+    artist_id: z.string().optional()
     
 });

@@ -17,6 +17,7 @@ import CreateArtist from "./pages/artists/CreateArtist";
 import EditArtistPage from "./pages/artists/EditArtist";
 import MusicPage from "./pages/music/MusicPage";
 import CreateMusic from "./pages/music/CreateMusic";
+import EditMusicPage from "./pages/music/EditMusic";
 
 const router = createBrowserRouter([
 
@@ -82,6 +83,10 @@ const router = createBrowserRouter([
       {
         path: "artists/:artistId/musics/create",
         element: <CreateMusic />
+      },
+      {
+        path: "musics/edit/:musicId",
+        element: <EditMusicPage />
       },
 
     ]

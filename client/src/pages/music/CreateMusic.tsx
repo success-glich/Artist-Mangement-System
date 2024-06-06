@@ -57,7 +57,7 @@ function CreateMusic() {
         formData.append("title", values.title);
         formData.append("album_name", values.album_name);
         formData.append("genre", values.genre);
-        formData.append("artist_id", values.artist_id);
+        formData.append("artist_id", values?.artist_id as string);
 
         mutation.mutate(formData);
 
