@@ -25,7 +25,6 @@ class UserServices {
         'SELECT * FROM "user" WHERE email = $1',
         [email]
       );
-      console.log(existingUser.rows.length);
       if (existingUser.rows.length > 0) throw new Error("User already exists");
 
       const hashedPassword = await authHelper.hash(password);

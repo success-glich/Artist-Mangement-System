@@ -223,12 +223,10 @@ function ArtistPage() {
                                     <PaginationItem>
                                         <PaginationNext
                                             className={`${page === totalPages
-                                                    ? "pointer-events-none opacity-50"
-                                                    : ""
+                                                ? "pointer-events-none opacity-50"
+                                                : ""
                                                 }`}
                                             onClick={() => {
-                                                console.log(data);
-                                                console.log({ page, totalPages });
 
                                                 if (!isPlaceholderData && data.data.total !== page) {
                                                     setPage((old) => old + 1);

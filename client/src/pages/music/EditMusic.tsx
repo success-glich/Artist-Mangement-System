@@ -38,8 +38,6 @@ function EditMusicPage() {
     });
     const musics: Music = response?.data.data;
 
-    console.log("artist", musics);
-
     const { toast } = useToast();
 
     const queryClient = useQueryClient();
@@ -52,7 +50,6 @@ function EditMusicPage() {
                 variant: "success",
                 title: res.data.message,
             });
-            console.log("musics updated successfully");
             navigate(-1);
         },
     });
@@ -65,7 +62,6 @@ function EditMusicPage() {
         formData.append("album_name", values.album_name);
         formData.append("genre", values.genre);
         mutation.mutate({ id: Number(musicId), data: formData });
-        console.log(values);
     }
 
     const defaultValues: Omit<z.infer<typeof musicSchema>, "artist_id"> = {

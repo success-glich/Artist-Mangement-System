@@ -45,7 +45,6 @@ function CreateMusic() {
                 variant: "success",
                 title: res.data.message,
             });
-            console.log("Music created successfully");
             // * go back to previous page
             navigate(-1);
         },

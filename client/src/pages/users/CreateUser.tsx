@@ -48,7 +48,6 @@ function CreateUser() {
                 variant: "success",
                 title: res.data.message,
             });
-            console.log("User created successfully");
             navigate("/dashboard/users");
         },
     });
@@ -67,7 +66,6 @@ function CreateUser() {
 
         mutation.mutate(formData);
 
-        console.log(values);
     }
 
     return (

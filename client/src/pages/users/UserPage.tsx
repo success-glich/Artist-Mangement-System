@@ -240,8 +240,6 @@ function UserPage() {
                                                 : ""
                                                 }`}
                                             onClick={() => {
-                                                console.log(data);
-                                                console.log({ page, totalPages });
 
                                                 if (!isPlaceholderData && data.data.total !== page) {
                                                     setPage((old) => old + 1);

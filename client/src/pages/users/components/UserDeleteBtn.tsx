@@ -31,7 +31,6 @@ function UserDeleteBtn({ id }: { id: number }) {
         },
     });
     const handleDelete = () => {
-        console.log("Delete user with id:", id);
         deleteMutation.mutate(id);
     };
 

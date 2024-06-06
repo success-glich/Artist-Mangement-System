@@ -31,7 +31,6 @@ function ArtistDeleteBtn({ id }: { id: number }) {
         },
     });
     const handleDelete = () => {
-        console.log("Delete artists with id:", id);
         deleteMutation.mutate(id);
     };
 

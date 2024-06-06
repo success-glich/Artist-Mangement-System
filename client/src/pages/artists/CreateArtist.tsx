@@ -46,7 +46,6 @@ function CreateArtist() {
                 variant: "success",
                 title: res.data.message,
             });
-            console.log("Artist created successfully");
             navigate("/dashboard/artists");
         },
     });
@@ -62,7 +61,7 @@ function CreateArtist() {
 
         mutation.mutate(formData);
 
-        console.log(values);
+
     }
 
     return (

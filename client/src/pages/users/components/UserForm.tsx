@@ -31,33 +31,10 @@ interface UserFormProps {
 
 function UserForm({ isPending, defaultValues, onSubmit }: UserFormProps) {
 
-    // const navigate = useNavigate();
-
-
     const form = useForm<z.infer<typeof userSchema>>({
         resolver: zodResolver(userSchema),
         defaultValues: defaultValues,
     });
-    // const { toast } = useToast();
-
-    // const queryClient = useQueryClient();
-
-    // const mutation = useMutation({
-    //     mutationFn: user ? updateUser : createUser,
-    //     onSuccess: (res) => {
-    //         queryClient.invalidateQueries({ queryKey: ['users'] });
-    //         toast({
-    //             variant: "success",
-    //             title: res.data.message,
-    //         })
-    //         console.log('User created successfully');
-    //         navigate('/dashboard/users');
-    //     },
-    // });
-
-    console.log()
-
-
 
     return (
         <section>

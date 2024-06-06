@@ -42,7 +42,6 @@ function EditUserPage() {
                 variant: "success",
                 title: res.data.message,
             })
-            console.log('User created successfully');
             navigate('/dashboard/users');
         },
     });
@@ -59,7 +58,6 @@ function EditUserPage() {
         formData.append('password', values.password);
         formData.append('phone', values.phone);
         mutation.mutate({ id: Number(userId), data: formData });
-        console.log(values);
     }
 
     const defaultValues = {

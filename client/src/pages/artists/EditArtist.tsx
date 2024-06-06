@@ -39,8 +39,6 @@ function EditArtistPage() {
     });
     const artist: Artist = response?.data.data;
 
-    console.log("artist", artist);
-
     const { toast } = useToast();
 
     const queryClient = useQueryClient();
@@ -53,7 +51,6 @@ function EditArtistPage() {
                 variant: "success",
                 title: res.data.message,
             });
-            console.log("Agent updated successfully");
             navigate("/dashboard/artists");
         },
     });
@@ -70,7 +67,6 @@ function EditArtistPage() {
 
         mutation.mutate({ id: Number(artistId), data: formData });
 
-        console.log(values);
     }
 
     const defaultValues: z.infer<typeof artistSchema> = {

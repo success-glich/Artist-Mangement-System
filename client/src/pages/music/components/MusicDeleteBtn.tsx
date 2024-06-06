@@ -35,7 +35,6 @@ function MusicDeleteBtn({ id }: { id: number }) {
         },
     });
     const handleDelete = () => {
-        console.log("Delete music with id:", id);
         deleteMutation.mutate(id);
     };
 
