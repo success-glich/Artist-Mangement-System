@@ -52,7 +52,7 @@ class MusicService {
 
     try {
       const query = `
-      UPDATE "Song"
+      UPDATE "music"
       SET 
       title = $1,
       album_name = $2,
