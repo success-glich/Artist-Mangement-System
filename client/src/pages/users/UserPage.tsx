@@ -48,8 +48,7 @@ import { Link, useNavigate } from "react-router-dom";
 import UserDeleteBtn from "./components/UserDeleteBtn";
 import { User } from "@/types/types";
 
-const UserPage = () => {
-
+function UserPage() {
     const [page, setPage] = useState(1);
     const navigate = useNavigate();
 
@@ -64,7 +63,6 @@ const UserPage = () => {
     const total = data?.data.total || 0;
     const totalPages = Math.ceil(total / limit);
 
-
     if (isError) {
         return <div>Error: {error.message}</div>;
     }
@@ -76,11 +74,14 @@ const UserPage = () => {
                     <Breadcrumb>
                         <BreadcrumbList>
                             <BreadcrumbItem>
-                                <BreadcrumbLink href="/dashboard/home">Home</BreadcrumbLink>
+                                <BreadcrumbLink>
+                                    {" "}
+                                    <Link to="/dashboard/home">Home</Link>
+                                </BreadcrumbLink>
                             </BreadcrumbItem>
                             <BreadcrumbSeparator />
                             <BreadcrumbItem>
-                                <BreadcrumbPage>Users</BreadcrumbPage>``
+                                <BreadcrumbPage>Users</BreadcrumbPage>
                             </BreadcrumbItem>
                         </BreadcrumbList>
                     </Breadcrumb>
@@ -112,7 +113,7 @@ const UserPage = () => {
                             </span>
                         </Button>
                         <Link to="/dashboard/users/create">
-                            <Button size="sm" className="h-7 gap-1" >
+                            <Button size="sm" className="h-7 gap-1">
                                 <PlusCircle className="h-3.5 w-3.5" />
                                 <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
                                     Add User
@@ -149,9 +150,7 @@ const UserPage = () => {
                                         <TableHead className="hidden md:table-cell">
                                             Updated at
                                         </TableHead>
-                                        <TableHead>
-                                            Action
-                                        </TableHead>
+                                        <TableHead>Action</TableHead>
                                     </TableRow>
                                 </TableHeader>
                                 <TableBody>
@@ -206,10 +205,15 @@ const UserPage = () => {
 
 
                                                 </DropdownMenu> */}
-                                                <div onClick={() => navigate(`edit/${user.id}`)} className="flex items-center"><Edit2
-                                                    size={20}
-                                                    className="text-blue-500 hover:scale-125 cursor-pointer transition-all"
-                                                /> </div>
+                                                <div
+                                                    onClick={() => navigate(`edit/${user.id}`)}
+                                                    className="flex items-center"
+                                                >
+                                                    <Edit2
+                                                        size={20}
+                                                        className="text-blue-500 hover:scale-125 cursor-pointer transition-all"
+                                                    />{" "}
+                                                </div>
                                                 <UserDeleteBtn id={user.id} />
                                             </TableCell>
                                         </TableRow>

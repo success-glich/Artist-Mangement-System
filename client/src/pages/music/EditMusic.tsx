@@ -15,7 +15,7 @@ import {
 import { useToast } from "@/components/ui/use-toast";
 import { getMusic, updateMusic } from "@/http/api";
 import { Music } from "@/types/types";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { z } from "zod";
@@ -84,15 +84,18 @@ function EditMusicPage() {
                 <Breadcrumb>
                     <BreadcrumbList>
                         <BreadcrumbItem>
-                            <BreadcrumbLink href="/dashboard/home">Home</BreadcrumbLink>
+                            <BreadcrumbLink >
+                                <Link to="/dashboard/home">Home</Link>
+                            </BreadcrumbLink>
                         </BreadcrumbItem>
                         <BreadcrumbSeparator />
                         <BreadcrumbItem>
-                            <BreadcrumbLink href="/dashboard/artists">Artists</BreadcrumbLink>
+                            <BreadcrumbLink >
+                                <Link to="/dashboard/artists" >Artists</Link></BreadcrumbLink>
                         </BreadcrumbItem>
                         <BreadcrumbSeparator />
                         <BreadcrumbItem>
-                            <div onClick={() => navigate(-1)}>Musics</div>
+                            <BreadcrumbLink onClick={() => navigate(-1)} className="cursor-pointer">Musics</BreadcrumbLink>
                         </BreadcrumbItem>
                         <BreadcrumbSeparator />
                         <BreadcrumbItem>

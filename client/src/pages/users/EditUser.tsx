@@ -7,7 +7,7 @@ import { formatDate } from "@/lib/utils/formatDate";
 import { userSchema } from "@/schema/user.schema";
 import { User } from "@/types/types";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { z } from "zod";
 
 
@@ -83,11 +83,11 @@ function EditUserPage() {
                 <Breadcrumb>
                     <BreadcrumbList>
                         <BreadcrumbItem>
-                            <BreadcrumbLink href="/dashboard/home">Home</BreadcrumbLink>
+                            <BreadcrumbLink><Link to="/dashboard/home">Home</Link></BreadcrumbLink>
                         </BreadcrumbItem>
                         <BreadcrumbSeparator />
                         <BreadcrumbItem>
-                            <BreadcrumbLink href="/dashboard/users">Users</BreadcrumbLink>
+                            <BreadcrumbLink><Link to="/dashboard/users">Users</Link></BreadcrumbLink>
                         </BreadcrumbItem>
                         <BreadcrumbSeparator />
                         <BreadcrumbItem>

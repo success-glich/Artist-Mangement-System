@@ -29,7 +29,7 @@ const defaultValues: z.infer<typeof artistSchema> = {
     address: "",
     dob: "",
     first_release_year: "",
-    no_of_albums_released: ""
+    no_of_albums_released: "",
 };
 function CreateArtist() {
     const navigate = useNavigate();
@@ -71,11 +71,15 @@ function CreateArtist() {
                 <Breadcrumb>
                     <BreadcrumbList>
                         <BreadcrumbItem>
-                            <BreadcrumbLink href="/dashboard/home">Home</BreadcrumbLink>
+                            <BreadcrumbLink>
+                                <Link to="/dashboard/home">Home</Link>
+                            </BreadcrumbLink>
                         </BreadcrumbItem>
                         <BreadcrumbSeparator />
                         <BreadcrumbItem>
-                            <BreadcrumbLink href="/dashboard/artists">Artists</BreadcrumbLink>
+                            <BreadcrumbLink>
+                                <Link to="/dashboard/artists">Artists</Link>
+                            </BreadcrumbLink>
                         </BreadcrumbItem>
                         <BreadcrumbSeparator />
                         <BreadcrumbItem>
@@ -107,8 +111,11 @@ function CreateArtist() {
                     </CardDescription>
                 </CardHeader>
 
-
-                <ArtistFrom isPending={mutation.isPending} defaultValues={defaultValues} onSubmit={onSubmit} />
+                <ArtistFrom
+                    isPending={mutation.isPending}
+                    defaultValues={defaultValues}
+                    onSubmit={onSubmit}
+                />
             </Card>
         </section>
     );

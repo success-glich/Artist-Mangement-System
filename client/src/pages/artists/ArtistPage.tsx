@@ -49,7 +49,6 @@ import { Link, useNavigate } from "react-router-dom";
 import ArtistDeleteBtn from "./components/ArtistDeleteBtn";
 
 function ArtistPage() {
-
     const [page, setPage] = useState(1);
     const navigate = useNavigate();
 
@@ -64,7 +63,6 @@ function ArtistPage() {
     const total = data?.data.total || 0;
     const totalPages = Math.ceil(total / limit);
 
-
     if (isError) {
         return <div>Error: {error.message}</div>;
     }
@@ -76,7 +74,9 @@ function ArtistPage() {
                     <Breadcrumb>
                         <BreadcrumbList>
                             <BreadcrumbItem>
-                                <BreadcrumbLink href="/dashboard/home">Home</BreadcrumbLink>
+                                <BreadcrumbLink>
+                                    <Link to="/dashboard/home"> Home</Link>
+                                </BreadcrumbLink>
                             </BreadcrumbItem>
                             <BreadcrumbSeparator />
                             <BreadcrumbItem>
@@ -112,7 +112,7 @@ function ArtistPage() {
                             </span>
                         </Button>
                         <Link to="/dashboard/artists/create">
-                            <Button size="sm" className="h-7 gap-1" >
+                            <Button size="sm" className="h-7 gap-1">
                                 <PlusCircle className="h-3.5 w-3.5" />
                                 <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
                                     Add Artist
@@ -150,10 +150,7 @@ function ArtistPage() {
                                             Updated at
                                         </TableHead>
 
-
-                                        <TableHead>
-                                            Action
-                                        </TableHead>
+                                        <TableHead>Action</TableHead>
                                     </TableRow>
                                 </TableHeader>
                                 <TableBody>
@@ -165,40 +162,50 @@ function ArtistPage() {
                                         </TableRow>
                                     )}
 
-                                    {artists && artists.length > 0 && artists?.map((artist: Artist, index: number) => (
+                                    {artists &&
+                                        artists.length > 0 &&
+                                        artists?.map((artist: Artist, index: number) => (
+                                            <TableRow key={artist.id}>
+                                                <TableCell>{index + 1}</TableCell>
+                                                <TableCell>{artist.name}</TableCell>
+                                                <TableCell>{formatGender(artist?.gender)}</TableCell>
+                                                <TableCell>{artist.address}</TableCell>
+                                                <TableCell>{artist.first_release_year}</TableCell>
+                                                <TableCell>{artist.no_of_albums_released}</TableCell>
+                                                {/* <TableCell>{artist.address}</TableCell> */}
+                                                <TableCell className="hidden md:table-cell">
+                                                    {formatDate(artist?.dob.toString())}
+                                                </TableCell>
 
-                                        <TableRow key={artist.id}>
-                                            <TableCell>{index + 1}</TableCell>
-                                            <TableCell>{artist.name}</TableCell>
-                                            <TableCell>{formatGender(artist?.gender)}</TableCell>
-                                            <TableCell>{artist.address}</TableCell>
-                                            <TableCell>{artist.first_release_year}</TableCell>
-                                            <TableCell>{artist.no_of_albums_released}</TableCell>
-                                            {/* <TableCell>{artist.address}</TableCell> */}
-                                            <TableCell className="hidden md:table-cell">
-                                                {formatDate(artist?.dob.toString())}
-                                            </TableCell>
+                                                <TableCell className="hidden md:table-cell">
+                                                    {formatDate(artist?.created_at?.toString() || "")}
+                                                </TableCell>
+                                                <TableCell className="hidden md:table-cell">
+                                                    {formatDate(artist?.updated_at?.toString() || "")}
+                                                </TableCell>
 
-                                            <TableCell className="hidden md:table-cell">
-                                                {formatDate(artist?.created_at?.toString() || "")}
-                                            </TableCell>
-                                            <TableCell className="hidden md:table-cell">
-                                                {formatDate(artist?.updated_at?.toString() || "")}
-                                            </TableCell>
+                                                <TableCell className="flex gap-3 items-center">
+                                                    <div
+                                                        onClick={() => navigate(`edit/${artist.id}`)}
+                                                        className="flex items-center"
+                                                    >
+                                                        <Edit2
+                                                            size={20}
+                                                            className="text-blue-500 hover:scale-125 cursor-pointer transition-all"
+                                                        />{" "}
+                                                    </div>
 
-                                            <TableCell className="flex gap-3 items-center">
+                                                    <ArtistDeleteBtn id={artist.id} />
 
-                                                <div onClick={() => navigate(`edit/${artist.id}`)} className="flex items-center"><Edit2
-                                                    size={20}
-                                                    className="text-blue-500 hover:scale-125 cursor-pointer transition-all"
-                                                /> </div>
-
-                                                <ArtistDeleteBtn id={artist.id} />
-
-                                                <Button variant="outline" onClick={() => navigate(`${artist.id}/musics`)}>View Songs</Button>
-                                            </TableCell>
-                                        </TableRow>
-                                    ))}
+                                                    <Button
+                                                        variant="outline"
+                                                        onClick={() => navigate(`${artist.id}/musics`)}
+                                                    >
+                                                        View Songs
+                                                    </Button>
+                                                </TableCell>
+                                            </TableRow>
+                                        ))}
                                 </TableBody>
                             </Table>
                         </CardContent>
@@ -216,8 +223,8 @@ function ArtistPage() {
                                     <PaginationItem>
                                         <PaginationNext
                                             className={`${page === totalPages
-                                                ? "pointer-events-none opacity-50"
-                                                : ""
+                                                    ? "pointer-events-none opacity-50"
+                                                    : ""
                                                 }`}
                                             onClick={() => {
                                                 console.log(data);

@@ -76,11 +76,15 @@ function CreateUser() {
                 <Breadcrumb>
                     <BreadcrumbList>
                         <BreadcrumbItem>
-                            <BreadcrumbLink href="/dashboard/home">Home</BreadcrumbLink>
+                            <BreadcrumbLink>
+                                <Link to="/dashboard/home">Home</Link>
+                            </BreadcrumbLink>
                         </BreadcrumbItem>
                         <BreadcrumbSeparator />
                         <BreadcrumbItem>
-                            <BreadcrumbLink href="/dashboard/users">Users</BreadcrumbLink>
+                            <BreadcrumbLink>
+                                <Link to="/dashboard/users">Users</Link>
+                            </BreadcrumbLink>
                         </BreadcrumbItem>
                         <BreadcrumbSeparator />
                         <BreadcrumbItem>

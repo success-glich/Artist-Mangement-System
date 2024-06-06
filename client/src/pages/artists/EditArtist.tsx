@@ -1,23 +1,31 @@
-import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from "@/components/ui/breadcrumb";
-import { Card, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+    Breadcrumb,
+    BreadcrumbItem,
+    BreadcrumbLink,
+    BreadcrumbList,
+    BreadcrumbPage,
+    BreadcrumbSeparator,
+} from "@/components/ui/breadcrumb";
+import {
+    Card,
+    CardDescription,
+    CardHeader,
+    CardTitle,
+} from "@/components/ui/card";
 import { useToast } from "@/components/ui/use-toast";
 import { getArtist, updateArtist } from "@/http/api";
 import { artistSchema } from "@/schema/artist.schema";
 import { Artist } from "@/types/types";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { z } from "zod";
 import ArtistForm from "./components/ArtistForm";
 import { formatDate } from "@/lib/utils/formatDate";
 
-
-
 function EditArtistPage() {
-
     const params = useParams();
     const { artistId } = params;
-
 
     const navigate = useNavigate();
     const {
@@ -40,13 +48,13 @@ function EditArtistPage() {
     const mutation = useMutation({
         mutationFn: updateArtist,
         onSuccess: (res) => {
-            queryClient.invalidateQueries({ queryKey: ['users'] });
+            queryClient.invalidateQueries({ queryKey: ["users"] });
             toast({
                 variant: "success",
                 title: res.data.message,
-            })
-            console.log('Agent updated successfully');
-            navigate('/dashboard/artists');
+            });
+            console.log("Agent updated successfully");
+            navigate("/dashboard/artists");
         },
     });
 
@@ -62,10 +70,8 @@ function EditArtistPage() {
 
         mutation.mutate({ id: Number(artistId), data: formData });
 
-
         console.log(values);
     }
-
 
     const defaultValues: z.infer<typeof artistSchema> = {
         name: artist?.name,
@@ -73,7 +79,7 @@ function EditArtistPage() {
         address: artist?.address,
         dob: formatDate(artist?.dob),
         first_release_year: String(artist?.first_release_year),
-        no_of_albums_released: String(artist?.no_of_albums_released)
+        no_of_albums_released: String(artist?.no_of_albums_released),
     };
     if (isLoading) {
         return <div>loading...</div>;
@@ -86,11 +92,15 @@ function EditArtistPage() {
                 <Breadcrumb>
                     <BreadcrumbList>
                         <BreadcrumbItem>
-                            <BreadcrumbLink href="/dashboard/home">Home</BreadcrumbLink>
+                            <BreadcrumbLink>
+                                <Link to="/dashboard/home">Home</Link>
+                            </BreadcrumbLink>
                         </BreadcrumbItem>
                         <BreadcrumbSeparator />
                         <BreadcrumbItem>
-                            <BreadcrumbLink href="/dashboard/artists">Artists</BreadcrumbLink>
+                            <BreadcrumbLink>
+                                <Link to="/dashboard/artists">Artists</Link>
+                            </BreadcrumbLink>
                         </BreadcrumbItem>
                         <BreadcrumbSeparator />
                         <BreadcrumbItem>
@@ -103,18 +113,22 @@ function EditArtistPage() {
                 <CardHeader>
                     <CardTitle>Update a artist</CardTitle>
                     <CardDescription>
-                        Fill out the form below to update a  artist.
+                        Fill out the form below to update a artist.
                         <br />
-                        {mutation.isError && <div className='text-red-500'>Something went wrong</div>}
+                        {mutation.isError && (
+                            <div className="text-red-500">Something went wrong</div>
+                        )}
                     </CardDescription>
                 </CardHeader>
 
-
-                <ArtistForm isPending={mutation.isPending} defaultValues={defaultValues} onSubmit={onSubmit} />
+                <ArtistForm
+                    isPending={mutation.isPending}
+                    defaultValues={defaultValues}
+                    onSubmit={onSubmit}
+                />
             </Card>
-
-        </section >
-    )
+        </section>
+    );
 }
 
 export default EditArtistPage;

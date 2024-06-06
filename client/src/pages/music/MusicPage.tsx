@@ -50,7 +50,6 @@ import MusicDeleteBtn from "./components/MusicDeleteBtn";
 import { capitalizeFirstLetter } from "@/lib/utils/capitalizeFirstLetter";
 
 const MusicPage = () => {
-
     const [page, setPage] = useState(1);
     const navigate = useNavigate();
 
@@ -61,13 +60,13 @@ const MusicPage = () => {
             queryFn: () => getMusics({ page, artistId: Number(artistId) }),
             placeholderData: keepPreviousData,
         });
-    const limit = 5
+    const limit = 5;
     const musics = data?.data?.musics || [];
     const totalMusic = data?.data.total || 0;
     const totalPages = Math.ceil(totalMusic / limit);
 
     if (isPending) {
-        return <div>Loading...</div>
+        return <div>Loading...</div>;
     }
 
     if (isError) {
@@ -85,7 +84,9 @@ const MusicPage = () => {
                             </BreadcrumbItem>
                             <BreadcrumbSeparator />
                             <BreadcrumbItem>
-                                <BreadcrumbPage><BreadcrumbLink href="/dashboard/artists">Artist</BreadcrumbLink></BreadcrumbPage>
+                                <BreadcrumbLink>
+                                    <Link to="/dashboard/artists">Artist</Link>
+                                </BreadcrumbLink>
                             </BreadcrumbItem>
                             <BreadcrumbSeparator />
                             <BreadcrumbItem>
@@ -121,7 +122,7 @@ const MusicPage = () => {
                             </span>
                         </Button>
                         <Link to={`/dashboard/artists/${artistId}/musics/create`}>
-                            <Button size="sm" className="h-7 gap-1" >
+                            <Button size="sm" className="h-7 gap-1">
                                 <PlusCircle className="h-3.5 w-3.5" />
                                 <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
                                     Add Music
@@ -134,9 +135,7 @@ const MusicPage = () => {
                     <Card x-chunk="dashboard-06-chunk-0">
                         <CardHeader>
                             <CardTitle>Musics</CardTitle>
-                            <CardDescription>
-                                Manage  Musics and view musics .
-                            </CardDescription>
+                            <CardDescription>Manage Musics and view musics .</CardDescription>
                         </CardHeader>
                         <CardContent>
                             <Table>
@@ -154,9 +153,7 @@ const MusicPage = () => {
                                         <TableHead className="hidden md:table-cell">
                                             Updated at
                                         </TableHead>
-                                        <TableHead>
-                                            Action
-                                        </TableHead>
+                                        <TableHead>Action</TableHead>
                                     </TableRow>
                                 </TableHeader>
                                 <TableBody>
@@ -167,40 +164,47 @@ const MusicPage = () => {
                                             </TableCell>
                                         </TableRow>
                                     )}
-                                    {musics?.length < 1 ? <TableRow>
-                                        <TableCell colSpan={11} className="text-center">
-                                            Data Not Found
-                                        </TableCell>
-                                    </TableRow> : musics?.map((music: Music, index: number) => (
-                                        <TableRow key={music.id}>
-                                            <TableCell>{index + 1}</TableCell>
-                                            <TableCell>{music.title}</TableCell>
-                                            <TableCell>{music.album_name}</TableCell>
-                                            <TableCell>{capitalizeFirstLetter(music.genre)}</TableCell>
-                                            <TableCell>{music.artist_name}</TableCell>
-
-                                            <TableCell className="hidden md:table-cell">
-                                                {formatDate(music?.created_at?.toString() || "")}
+                                    {musics?.length < 1 ? (
+                                        <TableRow>
+                                            <TableCell colSpan={11} className="text-center">
+                                                Data Not Found
                                             </TableCell>
-                                            <TableCell className="hidden md:table-cell">
-                                                {formatDate(music?.updated_at?.toString() || "")}
-                                            </TableCell>
-
-                                            <TableCell className="flex gap-2 items-center">
-
-                                                <div onClick={() => navigate(`/dashboard/musics/edit/${music.id}`)} className="flex items-center"><Edit2
-                                                    size={20}
-                                                    className="text-blue-500 hover:scale-125 cursor-pointer transition-all"
-                                                /> </div>
-                                                <MusicDeleteBtn id={music.id} />
-
-                                            </TableCell>
-
                                         </TableRow>
+                                    ) : (
+                                        musics?.map((music: Music, index: number) => (
+                                            <TableRow key={music.id}>
+                                                <TableCell>{index + 1}</TableCell>
+                                                <TableCell>{music.title}</TableCell>
+                                                <TableCell>{music.album_name}</TableCell>
+                                                <TableCell>
+                                                    {capitalizeFirstLetter(music.genre)}
+                                                </TableCell>
+                                                <TableCell>{music.artist_name}</TableCell>
 
+                                                <TableCell className="hidden md:table-cell">
+                                                    {formatDate(music?.created_at?.toString() || "")}
+                                                </TableCell>
+                                                <TableCell className="hidden md:table-cell">
+                                                    {formatDate(music?.updated_at?.toString() || "")}
+                                                </TableCell>
 
-
-                                    ))}
+                                                <TableCell className="flex gap-2 items-center">
+                                                    <div
+                                                        onClick={() =>
+                                                            navigate(`/dashboard/musics/edit/${music.id}`)
+                                                        }
+                                                        className="flex items-center"
+                                                    >
+                                                        <Edit2
+                                                            size={20}
+                                                            className="text-blue-500 hover:scale-125 cursor-pointer transition-all"
+                                                        />{" "}
+                                                    </div>
+                                                    <MusicDeleteBtn id={music.id} />
+                                                </TableCell>
+                                            </TableRow>
+                                        ))
+                                    )}
                                 </TableBody>
                             </Table>
                         </CardContent>
@@ -221,10 +225,17 @@ const MusicPage = () => {
                                                 ? "pointer-events-none opacity-50"
                                                 : ""
                                                 }`}
-                                            isActive={totalPages > 0 || isPlaceholderData || page === totalPages}
-
+                                            isActive={
+                                                totalPages > 0 ||
+                                                isPlaceholderData ||
+                                                page === totalPages
+                                            }
                                             onClick={() => {
-                                                if (!isPlaceholderData && totalPages !== page && totalPages > 0) {
+                                                if (
+                                                    !isPlaceholderData &&
+                                                    totalPages !== page &&
+                                                    totalPages > 0
+                                                ) {
                                                     setPage((old) => old + 1);
                                                 }
                                             }}
@@ -236,9 +247,9 @@ const MusicPage = () => {
                         </CardFooter>
                     </Card>
                 </section>
-            </div >
+            </div>
         </>
     );
-}
+};
 
 export default MusicPage;
