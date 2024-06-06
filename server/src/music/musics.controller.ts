@@ -1,3 +1,4 @@
+import { getMusic } from './../../../client/src/http/api';
 import { NextFunction, Request, Response } from "express";
 import { ApiResponse } from "../helper/ApiResponse";
 import createHttpError from "http-errors";
@@ -53,7 +54,7 @@ const MusicController = {
           )
         );
     } catch (err: any) {
-      console.log("Error while fetching artists:", err);
+      console.log("Error while fetching music:", err);
       const error = createHttpError(500, err.message);
       next(error);
     }
@@ -121,6 +122,26 @@ const MusicController = {
         .json(new ApiResponse(200, {musics,total:totalMusic}, "Music fetched successfully!"));
     } catch (err: any) {
       console.log("Error while fetching musics:", err);
+      const error = createHttpError(500, err.message);
+      next(error);
+    }
+  },
+  getMusic: async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const musicId = Number(req.params.id);
+      // * business logic
+      const musics = await musicServices.getMusicById(musicId);
+      return res
+        .status(200)
+        .json(
+          new ApiResponse(
+            200,
+            musics,
+            "Music fetched Successfully1!"
+          )
+        );
+    } catch (err: any) {
+      console.log("Error while fetching music:", err);
       const error = createHttpError(500, err.message);
       next(error);
     }
