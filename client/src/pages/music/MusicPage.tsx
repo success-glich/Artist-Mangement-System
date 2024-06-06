@@ -46,6 +46,7 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 // import UserDeleteBtn from "./components/UserDeleteBtn";
 import { Music } from "@/types/types";
 import { getMusics } from "@/http/api";
+import MusicDeleteBtn from "./components/MusicDeleteBtn";
 
 const MusicPage = () => {
 
@@ -190,6 +191,7 @@ const MusicPage = () => {
                                                     size={20}
                                                     className="text-blue-500 hover:scale-125 cursor-pointer transition-all"
                                                 /> </div>
+                                                <MusicDeleteBtn id={music.id} />
 
                                             </TableCell>
 
