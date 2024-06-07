@@ -57,6 +57,17 @@ class ArtistServices {
       client.release();
     }
   }
+  async getAllArtists(){
+     const client = await this.pool.connect();
+    try {
+      const res = await client.query('SELECT * FROM artist');
+      return res.rows;
+    } catch (err: any) {
+      throw new Error(err);
+    } finally {
+      client.release();
+    }
+  }
   async updateArtistById({
     id,
     name,
@@ -122,6 +133,7 @@ class ArtistServices {
       ]);
       return res.rows[0];
     } catch (err: any) {
+      console.log("helllooooo")
       throw new Error(err);
     } finally {
       client.release();
