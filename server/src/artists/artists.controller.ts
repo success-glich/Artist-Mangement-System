@@ -167,6 +167,20 @@ const ArtistController = {
       const error = createHttpError(500, err.message);
       next(error);
     }
+  },
+  exportArtists:async(req:Request, res:Response, next:NextFunction)=>{
+    try {
+      // console.log("hello");
+      const artists = await artistServices.getAllArtists();
+      const csvData = await CsvHelper.jsonToCsv(artists);
+      res.setHeader('Content-Type', 'text/csv');
+      res.setHeader('Content-Disposition', 'attachment; filename=artists.csv');
+      res.send(csvData);
+    } catch (err: any) {
+      console.log("Error while exporting artists:", err);
+      const error = createHttpError(500, err.message);
+      next(error);
+    }
   }
 };
 
