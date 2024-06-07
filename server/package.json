@@ -5,7 +5,8 @@
   "main": "server.ts",
   "scripts": {
     "start": "node dist/server.js",
-    "dev": "nodemon --exec ts-node ./server.ts"
+    "dev": "nodemon --exec ts-node ./server.ts",
+    "build":"tsc"
   },
   "author": "Saphal Ghorasaini <iamsaphal21@gmail.com>",
   "license": "ISC",

@@ -1,38 +1,42 @@
+# Build stage
 FROM node:18-alpine as builder
 
 WORKDIR /app
 
 COPY package*.json ./
 
-RUN npm cli
+RUN npm ci
 
 COPY . .
 
 RUN npm run build
 
-#  build production image
+# Production stage
 FROM node:18-alpine 
 
 WORKDIR /app
 
 COPY package*.json ./
 
-ENV NODE_ENG =production 
+ENV NODE_ENV=production 
 
-# RUN npm ci --omit = dev => its omit the dev-dependencies
+# Install only production dependencies
+RUN npm ci --omit=dev
+
+# Copy the build output from the builder stage
 COPY --from=builder /app/dist ./dist
 
-# we can change ownership
-# RUN chown -R node:node /app && chmod -R 755 /app to follow least privileges
-
+# Install PM2 globally
 RUN npm install pm2 -g
 
 COPY ecosystem.config.js .
 
-# we can switch if 
+# Change ownership and permissions (optional, for least privileges)
+# RUN chown -R node:node /app && chmod -R 755 /app
+
+# If you switch to a non-root user, ensure that the user has the necessary permissions
 # USER node
 
 EXPOSE 8001
 
-CMD [ "pm2-runtime","start","ecosystem.config.js" ]
-
+CMD [ "pm2-runtime", "start", "ecosystem.config.js" ]
