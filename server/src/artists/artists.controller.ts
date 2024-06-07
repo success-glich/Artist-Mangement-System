@@ -2,6 +2,8 @@ import { NextFunction, Request, Response } from "express";
 import { ApiResponse } from "../helper/ApiResponse";
 import createHttpError from "http-errors";
 import artistServices from ".";
+import CsvHelper from "../helper/csvHelper";
+import { Artist } from "./artists.types";
 
 const ArtistController = {
 
@@ -144,6 +146,24 @@ const ArtistController = {
         .json(new ApiResponse(200, count, "Artist count fetched successfully!"));
     } catch (err: any) {
       console.log("Error while fetching artist count:", err);
+      const error = createHttpError(500, err.message);
+      next(error);
+    }
+  },
+  importArtists:async(req:Request,res:Response,next:NextFunction)=>{
+    try {
+      // const {file} = req.body;
+      // const artists = await artistServices.importArtists(file);
+      const file = req.file as Express.Multer.File;
+      const jsonData = await CsvHelper.csvToJson(file.path);
+      console.log(jsonData)
+       await artistServices.insertMany(jsonData);
+
+      return res
+        .status(200)
+        .json(new ApiResponse(200, null, "Artists imported successfully!"));
+    } catch (err: any) {
+      console.log("Error while importing artists:", err);
       const error = createHttpError(500, err.message);
       next(error);
     }

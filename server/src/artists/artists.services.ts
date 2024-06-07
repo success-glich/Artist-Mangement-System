@@ -139,5 +139,36 @@ class ArtistServices {
       client.release();
     }
   }
+  async insertMany(artists:any){
+
+    const client = await this.pool.connect();
+    try {
+      await client.query('BEGIN');
+      const insertQuery = `
+      INSERT INTO "artist" ( name, dob, gender, address, first_release_year, no_of_albums_released)
+      VALUES ($1, $2, $3, $4, $5, $6)
+    `;    
+    for (const artist of artists){
+      const values = [
+        artist.name,
+        artist.dob,
+        artist.gender,
+        artist.address,
+        artist.first_release_year,
+        artist.no_of_albums_released,
+      ];
+      await client.query(insertQuery,values);
+      
+    }
+     
+      await client.query('COMMIT');
+      return true;
+
+    } catch (err: any) {
+      throw new Error(err);
+    } finally {
+      client.release();
+    }
+  }
 }
 export default ArtistServices;

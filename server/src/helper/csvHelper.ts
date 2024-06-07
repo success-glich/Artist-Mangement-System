@@ -1,10 +1,11 @@
 
 import csv from "csv-parser";
 import fs from "node:fs";
+import { Artist } from "../artists/artists.types";
 class CsvHelper {
-    static importCsv (filePath:string){
+    static csvToJson (filePath:string){
     return new Promise((resolve,reject)=>{
-        const filesRows: any[] = [];
+        const filesRows: Artist[] = [];
 
         fs.createReadStream(filePath)
         .pipe(csv())
@@ -22,7 +23,7 @@ class CsvHelper {
         
     })
     }
-    static exportCsv = async(jsonArray:any[])=>{
+    static jsonToCsv = async(jsonArray:any[])=>{
         if(jsonArray.length === 0) return;
         const keys = Object.keys(jsonArray[0]);
         const csvRows = [keys.join('/')];

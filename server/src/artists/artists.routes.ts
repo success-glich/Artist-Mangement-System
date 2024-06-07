@@ -2,10 +2,12 @@ import { Router } from "express";
 import AuthMiddleware from "../auth/auth.middleware";
 import ArtistController from "./artists.controller";
 import { validateArtist } from "../middleware/validators";
+import { upload } from "../middleware/multer.middleware";
 
 const artistRouter = Router();
 
 artistRouter.use(AuthMiddleware.isAuthenticated);
+
 
 artistRouter.get("/count",ArtistController.getArtistCount)
 artistRouter
@@ -19,5 +21,8 @@ artistRouter
    .put(validateArtist,ArtistController.updateArtist)
   .delete(ArtistController.deleteArtist);
 
+artistRouter
+.route("/import")
+.post(upload.single("file"),ArtistController.importArtists)
 
 export default artistRouter;
