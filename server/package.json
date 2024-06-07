@@ -6,7 +6,8 @@
   "scripts": {
     "start": "node dist/server.js",
     "dev": "nodemon --exec ts-node ./server.ts",
-    "build":"tsc"
+    "build":"tsc",
+    "docker-publish":"docker build -t iamsaphal21/artist-management-server:v1 --platform linux/amd64 && docker push iamsaphal21/artist-management-server"
   },
   "author": "Saphal Ghorasaini <iamsaphal21@gmail.com>",
   "license": "ISC",
