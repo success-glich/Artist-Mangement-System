@@ -85,7 +85,7 @@ export const updateArtist = async ({
 export const importArtists =   async (file: File) => {
   const formData = new FormData();
   formData.append('file', file);
-  return await api.post('http://localhost:3000/api/artists/import', formData, {
+  return await api.post('/artists/import', formData, {
     headers: {
       'Content-Type': 'multipart/form-data',
     },
