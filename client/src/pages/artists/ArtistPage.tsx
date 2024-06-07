@@ -43,10 +43,11 @@ import { formatDate } from "@/lib/utils/formatDate";
 import { formatGender } from "@/lib/utils/formatGender";
 import { Artist } from "@/types/types";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
-import { Edit2, File, ListFilter, PlusCircle } from "lucide-react";
+import { Edit2, ListFilter, PlusCircle } from "lucide-react";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import ArtistDeleteBtn from "./components/ArtistDeleteBtn";
+import ExportBtn from "./components/ExportBtn";
 
 function ArtistPage() {
     const [page, setPage] = useState(1);
@@ -105,12 +106,13 @@ function ArtistPage() {
                                 <DropdownMenuCheckboxItem>Archived</DropdownMenuCheckboxItem>
                             </DropdownMenuContent>
                         </DropdownMenu>
-                        <Button size="sm" variant="outline" className="h-7 gap-1">
+                        {/* <Button size="sm" variant="outline" className="h-7 gap-1">
                             <File className="h-3.5 w-3.5" />
                             <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
                                 Export
                             </span>
-                        </Button>
+                        </Button> */}
+                        <ExportBtn />
                         <Link to="/dashboard/artists/create">
                             <Button size="sm" className="h-7 gap-1">
                                 <PlusCircle className="h-3.5 w-3.5" />
